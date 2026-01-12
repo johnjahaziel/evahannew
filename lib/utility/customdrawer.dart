@@ -4,6 +4,9 @@ import 'package:evahan/login.dart';
 import 'package:evahan/navigation.dart';
 import 'package:evahan/providers/languageprovider.dart';
 import 'package:evahan/providers/userprovider.dart';
+import 'package:evahan/screens/approveuser.dart';
+import 'package:evahan/screens/community.dart';
+import 'package:evahan/screens/reportuser.dart';
 import 'package:evahan/screens/search.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
@@ -67,10 +70,10 @@ class _CustomdrawerState extends State<Customdrawer> {
               Icons.person_add_alt,
               isTamil ? 'பயனரை ஒப்புதல்' : 'Approve User',
               () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => Approveuser())
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Approveuser())
+                );
               }
             ),
           ],
@@ -88,10 +91,10 @@ class _CustomdrawerState extends State<Customdrawer> {
             Icons.person_remove_alt_1_outlined,
             isTamil ? 'புகார் பதிவு' : 'Report User',
             () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => Reportuser())
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Reportuser())
+              );
             }
           ),
           if(userrole == '1') ...[
@@ -99,13 +102,23 @@ class _CustomdrawerState extends State<Customdrawer> {
               Icons.person_remove_alt_1_outlined,
               isTamil ? '	புகார்களின் பட்டியல்' :  'Report List',
               () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => Reportlist())
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Navigation(initialIndex: 2))
+                );
               }
             ),
           ],
+          drawerlist(
+            Icons.location_city_rounded,
+            isTamil ? 'சமூக உறுப்பினர்கள்' : 'Community Members',
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Community())
+              );
+            }
+          ),
           logout(
             Icons.logout,
             isTamil ? 'வெளியேறு' : 'Logout',
@@ -199,13 +212,15 @@ drawerlist(IconData icon, String title, VoidCallback onTap) => RawMaterialButton
       children: [
         Icon(icon, size: 25),
         const SizedBox(width: 15),
-        Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            color: kmenu,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+        Expanded(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              color: kmenu,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ],

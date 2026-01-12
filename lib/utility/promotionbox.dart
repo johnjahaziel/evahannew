@@ -29,7 +29,14 @@ class _PromotionboxState extends State<Promotionbox> {
   }
 
   void _prepareLoopedData() {
-    _loopedImages = [...widget.imageUrls, ...widget.imageUrls];
+    if (widget.imageUrls.isEmpty) {
+      _loopedImages = [];
+    } else {
+      _loopedImages = [
+        ...widget.imageUrls,
+        ...widget.imageUrls,
+      ];
+    }
   }
 
   void _startAutoScroll() {
@@ -51,7 +58,17 @@ class _PromotionboxState extends State<Promotionbox> {
       }
     });
   }
-  
+
+  @override
+  void didUpdateWidget(covariant Promotionbox oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.imageUrls != widget.imageUrls) {
+      setState(() {
+        _prepareLoopedData();
+      });
+    }
+  }
 
   @override
   void dispose() {

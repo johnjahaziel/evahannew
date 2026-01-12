@@ -2,11 +2,14 @@
 
 import 'dart:convert';
 
+import 'package:evahan/providers/userprovider.dart';
+import 'package:evahan/screens/profile.dart';
 import 'package:evahan/utility/customappbar.dart';
 import 'package:evahan/utility/customdrawer.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -79,6 +82,7 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    final userrole = Provider.of<Userprovider>(context,listen: false).roleId;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -107,14 +111,19 @@ class _SearchState extends State<Search> {
                     user['id']?.toString() ?? '',
                     user['email'] ?? '',
                     user['phone_number']?.toString() ?? '',
-                    user['state_code']?.toString() ?? '',
-                    user['district_code']?.toString() ?? '',
-                    user['village_code']?.toString() ?? '',
+                    user['state_name']?.toString() ?? '',
+                    user['district_name']?.toString() ?? '',
+                    user['village_name']?.toString() ?? '',
                     () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => Adminusersettings(userid: user['id'].toString()))
-                      // );
+                      if (userrole == '1') {
+                        Navigator.push(
+                          context,
+                          // MaterialPageRoute(builder: (context) => Adminusersettings(userid: user['id'].toString()))
+                          MaterialPageRoute(builder: (context) => Profile(userid: user['id'].toString()))
+                        );
+                      } else {
+                        return;
+                      }
                     }
                   );
                 },

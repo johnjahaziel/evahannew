@@ -69,7 +69,7 @@ String _getLabelForIndex(int index) {
     case 1:
       return 'News';
     case 2:
-      return 'Report';
+      return 'Report Driver';
     case 3:
       return 'Profile';
     default:

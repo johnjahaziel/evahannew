@@ -1,41 +1,98 @@
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-textfield(String title) => Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 20),
-  child: Container(
-    decoration: BoxDecoration(
-      color: kgrey,
-      borderRadius: BorderRadius.circular(10),
-      boxShadow: [
-        BoxShadow(
-          offset: Offset(0, 2),
-          color: const Color.fromARGB(255, 191, 191, 191),
-          blurRadius: 2,
-          spreadRadius: 1
-        )
-      ]
-    ),
-    child: TextField(
-      maxLines: 1,
-      decoration: InputDecoration(
-        hintText: title,
-        hintStyle: TextStyle(
-          fontFamily: 'Poppins',
-          color: Color(0xff9B7F7F)
-        ),
-        filled: true,
-        fillColor: kgrey,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none
-        )
+const List<Map<String, String>> bloodgroupItems = [
+  {'label': 'A+', 'value': 'A+'},
+  {'label': 'A-', 'value': 'A-'},
+  {'label': 'B+', 'value': 'B+'},
+  {'label': 'B-', 'value': 'B-'},
+  {'label': 'AB+', 'value': 'AB+'},
+  {'label': 'AB-', 'value': 'AB-'},
+  {'label': 'O+', 'value': 'O+'},
+  {'label': 'O-', 'value': 'O-'},
+];
+
+textfield(String title, TextEditingController controller, {bool numpad = false}) => Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text(
+      title,
+      style: TextStyle(
+        fontFamily: 'Poppins',
+        color: Color(0xff919EAB)
       ),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(top: 5),
+      child: SizedBox(
+        child: TextField(
+          maxLines: 1,
+          controller: controller,
+          keyboardType: numpad == true ? TextInputType.number : TextInputType.text,
+          decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: Color(0xff919EAB)
+              )
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: Color(0xff919EAB)
+              )
+            )
+          )
+        ),
+      ),
+    ),
+  ],
+);
+
+password(String title, suffixIcon,bool isPassword,TextEditingController controller) => Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text(
+      title,
+      style: TextStyle(
+        fontFamily: 'Poppins',
+        color: Color(0xff919EAB)
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(top: 5),
+      child: TextField(
+        maxLines: 1,
+        controller: controller,
+        obscureText: !isPassword,
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(
+              color: Color(0xff919EAB)
+            )
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(
+              color: Color(0xff919EAB)
+            )
+          ),
+          suffixIcon: suffixIcon
+        ),
+      ),
+    ),
+  ],
+);
+
+errortext(String title) => Padding(
+  padding: const EdgeInsets.only(left: 28,top: 3),
+  child: Text(
+    title,
+    style: TextStyle(
+      color: kred
     ),
   ),
 );
@@ -107,7 +164,7 @@ Widget homebox(
   String content,
   String firstName,
   String lastName,
-  String phoneNumber,
+  // String phoneNumber,
   String createdAt,
 ) {
   return Padding(
@@ -195,25 +252,25 @@ Widget homebox(
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                const SizedBox(height: 2),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.call,
-                                      size: 13,
-                                      color: Color(0xFF777777),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      phoneNumber,
-                                      style: const TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 12,
-                                        color: Color(0xFF777777),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                // const SizedBox(height: 2),
+                                // Row(
+                                //   children: [
+                                //     const Icon(
+                                //       Icons.call,
+                                //       size: 13,
+                                //       color: Color(0xFF777777),
+                                //     ),
+                                //     const SizedBox(width: 4),
+                                //     Text(
+                                //       phoneNumber,
+                                //       style: const TextStyle(
+                                //         fontFamily: 'Poppins',
+                                //         fontSize: 12,
+                                //         color: Color(0xFF777777),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
                               ],
                             ),
                           ],
@@ -312,3 +369,264 @@ fieldbox(String title) => Padding(
     )
   ),
 );
+
+Widget youtube({required String link}) {
+  final videoId = YoutubePlayer.convertUrlToId(link);
+
+  YoutubePlayerController controller = YoutubePlayerController(
+    initialVideoId: videoId ?? '',
+    flags: YoutubePlayerFlags(
+      autoPlay: false,
+      mute: false,
+    ),
+  );
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: Container(
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: kgrey),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: const Color.fromARGB(255, 174, 174, 174),
+            offset: Offset(0, 4),
+            blurRadius: 2,
+          )
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: YoutubePlayer(
+          controller: controller,
+          showVideoProgressIndicator: true,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget reportbox(
+  String title,
+  String userid,
+  String firstName,
+  String lastName,
+  VoidCallback onTap
+) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x14000000),
+            blurRadius: 12,
+            offset: Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 5,
+            decoration: BoxDecoration(
+              color: kred,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(14),
+                bottomLeft: Radius.circular(14),
+              ),
+            ),
+          ),
+
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF111111),
+                    ),
+                  ),
+
+                  const SizedBox(height: 6),
+
+                  Text(
+                    "Reported by $userid",
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 14,
+                      height: 1.4,
+                      color: Color(0xFF555555),
+                    ),
+                  ),
+
+                  const SizedBox(height: 4),
+                  Divider(),
+                  const SizedBox(height: 2),
+
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.person
+                            ),
+                            
+                            const SizedBox(width: 10),
+                            
+                            Text(
+                              "$firstName $lastName",
+                              style: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      RawMaterialButton(
+                        onPressed: onTap,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        fillColor: klightred,
+                        child: Text(
+                          'Take Action',
+                          style: textmedium10.copyWith(
+                            color: kwhite
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget reporttakenbox(
+  String title,
+  String userid,
+  String firstName,
+  String lastName,
+) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x14000000),
+            blurRadius: 12,
+            offset: Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 5,
+            decoration: BoxDecoration(
+              color: kred,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(14),
+                bottomLeft: Radius.circular(14),
+              ),
+            ),
+          ),
+
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF111111),
+                    ),
+                  ),
+
+                  const SizedBox(height: 6),
+
+                  Text(
+                    "Reported by $userid",
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 14,
+                      height: 1.4,
+                      color: Color(0xFF555555),
+                    ),
+                  ),
+
+                  const SizedBox(height: 4),
+                  Divider(),
+                  const SizedBox(height: 2),
+
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.person
+                            ),
+                            
+                            const SizedBox(width: 10),
+                            
+                            Text(
+                              "$firstName $lastName",
+                              style: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 6),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}

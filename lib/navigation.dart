@@ -3,7 +3,8 @@ import 'package:evahan/providers/userprovider.dart';
 import 'package:evahan/screens/homescreen.dart';
 import 'package:evahan/screens/newsletter.dart';
 import 'package:evahan/screens/profile.dart';
-import 'package:evahan/screens/reportdriver.dart';
+import 'package:evahan/screens/reportuser.dart';
+import 'package:evahan/screens/reportview.dart';
 import 'package:evahan/size_config.dart';
 import 'package:evahan/utility/customappbar.dart';
 import 'package:evahan/utility/customdrawer.dart';
@@ -48,6 +49,7 @@ class _NavigationState extends State<Navigation> {
   @override
   Widget build(BuildContext context) {
     final userid = Provider.of<Userprovider>(context).userId;
+    final userrole = Provider.of<Userprovider>(context,listen: false).roleId;
     SizeConfig.init(context);
     return SafeArea(
       child: Scaffold(
@@ -60,7 +62,9 @@ class _NavigationState extends State<Navigation> {
           children: [
             Homescreen(),
             Newsletter(),
+            if(userrole == 1)
             Reportdriver(),
+            Reportuser(),
             Profile(userid: userid)
           ],
         ),

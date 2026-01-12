@@ -8,14 +8,12 @@ Color kyellow = Color(0xffFFD700);
 Color kgreen = Color(0xff48B33B);
 Color kgreen2 = Color(0xff81E04B);
 Color klightgreen = Color(0xff9CBA01);
-Color kblue = Color(0xff50C8FF);
-Color kdarkblue = Color(0xff1556BE);
-Color kpurple = Color(0xffBE158E);
 Color kgrey = Color(0xffF3F3F3);
 Color kred = Color(0xffAD0606);
+Color klightred = Color.fromARGB(255, 206, 47, 47);
 Color kmenu = Color(0xff554040);
 Color kblackgrey = Color(0xffEAEAEA);
-Color bg = const Color.fromARGB(255, 233, 233, 233);
+Color bg = Color.fromARGB(255, 255, 252, 252);
 
 //Font Sizes
 

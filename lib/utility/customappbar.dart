@@ -1,4 +1,3 @@
-import 'package:evahan/navigation.dart';
 import 'package:evahan/providers/languageprovider.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
@@ -30,34 +29,34 @@ class Customappbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
-      actions: [
-        Container(
-          width: 30,
-          height: 30,
-          margin: const EdgeInsets.only(right: 10),
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.fromBorderSide(
-              BorderSide(color: Colors.white, width: 1),
-            ),
-          ),
-          child: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Navigation(initialIndex: 3,))
-              );
-            },
-            icon: const Icon(
-              Icons.person,
-              color: Colors.white,
-              size: 22,
-            ),
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-          ),
-        ),
-      ],
+    //   actions: [
+    //     Container(
+    //       width: 30,
+    //       height: 30,
+    //       margin: const EdgeInsets.only(right: 10),
+    //       decoration: const BoxDecoration(
+    //         shape: BoxShape.circle,
+    //         border: Border.fromBorderSide(
+    //           BorderSide(color: Colors.white, width: 1),
+    //         ),
+    //       ),
+    //       child: IconButton(
+    //         onPressed: () {
+    //           Navigator.push(
+    //             context,
+    //             MaterialPageRoute(builder: (context) => Navigation(initialIndex: 3,))
+    //           );
+    //         },
+    //         icon: const Icon(
+    //           Icons.person,
+    //           color: Colors.white,
+    //           size: 22,
+    //         ),
+    //         padding: EdgeInsets.zero,
+    //         constraints: const BoxConstraints(),
+    //       ),
+    //     ),
+    //   ],
     );
   }
 }

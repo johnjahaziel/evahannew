@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:evahan/navigation.dart';
 import 'package:evahan/providers/languageprovider.dart';
 import 'package:evahan/providers/userprovider.dart';
+import 'package:evahan/signup.dart';
 import 'package:evahan/utility/customs.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +21,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool isPassword = false;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -51,6 +54,8 @@ class _LoginState extends State<Login> {
       final responseData = jsonDecode(response.body);
       
       if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: responseData['message']);
+
         final String userId = responseData['user_data']['reg_id'].toString();
         final String roleId = responseData['user_data']['category_id'].toString();
 
@@ -69,11 +74,11 @@ class _LoginState extends State<Login> {
           MaterialPageRoute(builder: (context) => Navigation()),
           ((route) => false)
         );
-
-        Fluttertoast.showToast(msg: responseData['message']);
+        print(responseData);
       } else {
 
         Fluttertoast.showToast(msg: responseData['message']);
+        print(responseData);
 
       }
     } catch (e) {
@@ -125,43 +130,35 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     SizedBox(height: 40),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: kgrey,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            offset: Offset(0, 2),
-                            color: Color.fromARGB(255, 191, 191, 191),
-                            blurRadius: 2,
-                            spreadRadius: 1,
-                          )
-                        ],
-                      ),
-                      child: TextField(
-                        controller: _usernameController,
-                        decoration: decor(isTamil ? 'மின்னஞ்சல்' : 'Email'),
-                      ),
+                    textfield(
+                      isTamil ? 'கைபேசி எண்' : 'Mobile Number',
+                      _usernameController,
+                      numpad: true
                     ),
-                    SizedBox(height: 20),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: kgrey,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            offset: Offset(0, 2),
-                            color: Color.fromARGB(255, 191, 191, 191),
-                            blurRadius: 2,
-                            spreadRadius: 1,
-                          )
-                        ],
+                    SizedBox(height: 10),
+                    password(
+                      isTamil ? 'கடவுச்சொல்' : 'Password',
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isPassword = !isPassword;
+                            });
+                          },
+                          icon: isPassword ? Icon(
+                            FontAwesomeIcons.solidEyeSlash,
+                            color: Colors.black,
+                            size: 20,
+                          ) : Icon(
+                            FontAwesomeIcons.solidEye,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                        ),
                       ),
-                      child: TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: decor(isTamil ? 'கடவுச்சொல்' : 'Password'),
-                      ),
+                      isPassword,
+                      _passwordController,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
@@ -204,10 +201,10 @@ class _LoginState extends State<Login> {
                     ),
                     SizedBox(height: 20),
                     signupbutton(() {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (_) => Signup()),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => Signup()),
+                      );
                     }),
                     SizedBox(height: 60),
                     Text(

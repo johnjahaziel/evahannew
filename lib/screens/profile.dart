@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:evahan/navigation.dart';
 import 'package:evahan/providers/languageprovider.dart';
-import 'package:evahan/screens/newsletter.dart';
-import 'package:evahan/screens/reportdriver.dart';
+import 'package:evahan/screens/search.dart';
+import 'package:evahan/utility/customappbar.dart';
+import 'package:evahan/utility/customdrawer.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -45,7 +47,7 @@ class _ProfileState extends State<Profile> {
     print("Received User ID: ${widget.userid}");
 
     try {
-      final url = Uri.parse('https://app.evahansevai.com/api/report-user/${widget.userid}');
+      final url = Uri.parse('https://app.evahansevai.com/api/users');
 
       final response = await http.get(
         url,
@@ -59,21 +61,37 @@ class _ProfileState extends State<Profile> {
 
       if(response.statusCode == 200) {
 
-        setState(() {
-          userData = responseData['data'];
-          isLoading = false;
+      final List<dynamic> users = responseData;
 
-          firstname = userData['user']['first_name'];
-          lastname = userData['user']['last_name'];
-          email = userData['user']['email'];
-          aadhar = userData['user']['aadhar'];
-          number = userData['user']['phone_number'].toString();
-          state = userData['user']['state_code'];
-          district = userData['user']['district_code'];
-          village = userData['user']['village_code'];
-        });
+      final Map<String, dynamic> matchedUser = users
+          .cast<Map<String, dynamic>>()
+          .firstWhere(
+            (user) => user['id'].toString() == widget.userid.toString(),
+            orElse: () => {},
+          );
 
-        // Fluttertoast.showToast(msg: responseData['message']);
+      print("Matched User: $matchedUser");
+
+      if (matchedUser.isEmpty) {
+        Fluttertoast.showToast(msg: "User not found");
+        return;
+      }
+
+      setState(() {
+        userData = matchedUser;
+
+        firstname = matchedUser['first_name'];
+        lastname  = matchedUser['last_name'];
+        email     = matchedUser['email'];
+        aadhar    = matchedUser['aadhar'];
+        number    = matchedUser['phone_number'].toString();
+        state     = matchedUser['state_name'];
+        district  = matchedUser['district_name'];
+        village   = matchedUser['village_name'];
+        photo     = matchedUser['photo'];
+
+        isLoading = false;
+      });
 
       } else {
         print('Error: $response');
@@ -88,6 +106,43 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  Future<void> genertateid() async{
+    final url = Uri.parse('https://app.evahansevai.com/api/user/${widget.userid}/generate-id-card');
+
+    setState(() {
+      isGenerating = true;
+    });
+
+    try {
+
+      final response = await http.get(
+        url,
+        headers: {
+          'Accept' : 'application/json',
+          'Content-Type' : 'application/json'
+        }
+      );
+
+      final responseData = jsonDecode(response.body);
+
+      if(response.statusCode == 200) {
+        Fluttertoast.showToast(msg: responseData['message']);
+
+        print(responseData);
+
+      } else {
+        Fluttertoast.showToast(msg: responseData['message']);
+      }
+
+    } catch (e) {
+      print(e);
+    } finally {
+      setState(() {
+      isGenerating = false;
+    });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final langProvider = Provider.of<Languageprovider>(context);
@@ -95,6 +150,8 @@ class _ProfileState extends State<Profile> {
     
     return SafeArea(
       child: Scaffold(
+        appBar: Customappbar(),
+        drawer: Customdrawer(),
           backgroundColor: Colors.white,
           body: isLoading ?
             Center(child: CircularProgressIndicator(color: kred))
@@ -150,49 +207,47 @@ class _ProfileState extends State<Profile> {
                                           ),
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
-                                            child: photo != null
-                                              ? AspectRatio(
-                                                  aspectRatio: 1 / 1,
-                                                  child: Image(
-                                                    image: NetworkImage(
-                                                      'https://app.evahansevai.com/$photo',
-                                                    ),
-                                                    fit: BoxFit.cover,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                  )
-                                                )
-                                              : AspectRatio(
-                                                  aspectRatio: 1 / 1,
-                                                  child: Image(
-                                                    image: AssetImage(
-                                                      'images/user.jpg'
-                                                    ),
-                                                    fit: BoxFit.cover,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                  )
+                                            child: photo != null && photo.toString().isNotEmpty
+                                            ? AspectRatio(
+                                              aspectRatio: 1 / 1,
+                                              child: Image.network(
+                                                  '$photo',
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error, stackTrace) {
+                                                    return Image.asset(
+                                                      'images/user.jpg',
+                                                      fit: BoxFit.cover,
+                                                    );
+                                                  },
                                                 ),
+                                            )
+                                            : AspectRatio(
+                                              aspectRatio: 1 / 1,
+                                              child: Image.asset(
+                                                  'images/user.jpg',
+                                                  fit: BoxFit.cover,
+                                                ),
+                                            ),
                                           ),
                                         ),
                                       );
                                     },
                                   ),
-                                  ListTile(
-                                    leading: Icon(
-                                      Icons.camera_alt,
-                                    ),
-                                    title: Text(
-                                      'Change Profile Picture',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    onTap: () async {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
+                                  // ListTile(
+                                  //   leading: Icon(
+                                  //     Icons.camera_alt,
+                                  //   ),
+                                  //   title: Text(
+                                  //     'Change Profile Picture',
+                                  //     style: TextStyle(
+                                  //       fontFamily: 'Poppins',
+                                  //       fontWeight: FontWeight.w500,
+                                  //     ),
+                                  //   ),
+                                  //   onTap: () async {
+                                  //     Navigator.pop(context);
+                                  //   },
+                                  // ),
                                 ],
                               ),
                             )
@@ -211,27 +266,26 @@ class _ProfileState extends State<Profile> {
                             alignment: Alignment.bottomRight,
                             children: [
                               ClipOval(
-                                child: photo != null ?
-                                Image(
-                                  image: NetworkImage(
-                                    'https://app.evahansevai.com/$photo',
-                                  ),
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                ) : Image(
-                                  image: AssetImage(
-                                    'images/user.jpg'
-                                  ),
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                )
+                                child: photo != null && photo.toString().isNotEmpty
+                                  ? Image.network(
+                                      '$photo',
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Image.asset(
+                                          'images/user.jpg',
+                                          fit: BoxFit.fill,
+                                        );
+                                      },
+                                    )
+                                  : Image.asset(
+                                      'images/user.jpg',
+                                      fit: BoxFit.fill,
+                                    ),
                               ),
-                              const Icon(
-                                Icons.edit_square,
-                                color: Color.fromARGB(255, 89, 89, 89),
-                              ),
+                              // const Icon(
+                              //   Icons.edit_square,
+                              //   color: Color.fromARGB(255, 89, 89, 89),
+                              // ),
                             ],
                           ),
                         ),
@@ -252,11 +306,11 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              SizedBox(height: 5),
-              Center(
-                child: userData['is_verified'] == "1" ? verifiedy() : notverifiedy()
-              ),
-              SizedBox(height: 20),
+              // SizedBox(height: 5),
+              // Center(
+              //   child: userData['is_verified'] == "1" ? verifiedy() : notverifiedy()
+              // ),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Container(
@@ -324,7 +378,7 @@ class _ProfileState extends State<Profile> {
                         () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Newsletter())
+                            MaterialPageRoute(builder: (context) => Navigation(initialIndex: 1,))
                           );
                         },
                         isTamil ? 'செய்தி' : 'News',
@@ -333,10 +387,10 @@ class _ProfileState extends State<Profile> {
                       SizedBox(width: 10),
                       buttonn(
                         () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => Search())
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Search())
+                          );
                         },
                         isTamil ? 'தேடு' : 'Search',
                         Icons.search,
@@ -346,7 +400,7 @@ class _ProfileState extends State<Profile> {
                         () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Reportdriver())
+                            MaterialPageRoute(builder: (context) => Navigation(initialIndex: 2,))
                           );
                         },
                         isTamil ? 'புகார் பதிவு' : 'Report User',
@@ -358,8 +412,16 @@ class _ProfileState extends State<Profile> {
               )
             ],
           ),
-          floatingActionButton: ElevatedButton(
-            onPressed: () {},
+          floatingActionButton: isGenerating ? Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            child: CircularProgressIndicator(
+              color: kred,
+            ),
+          )
+          : ElevatedButton(
+            onPressed: () {
+              genertateid();
+            },
           style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(kred),
             padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 20, vertical: 12)),

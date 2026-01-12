@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:evahan/utility/carousel.dart';
+import 'package:evahan/utility/customs.dart';
 import 'package:evahan/utility/promotionbox.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,9 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
+
+  bool isLoading = true;
+
   List<String> topadimageList = [];
   List<String> bottomadimageList = [];
   List<String> imageUrls = [];
@@ -21,9 +25,25 @@ class _HomescreenState extends State<Homescreen> {
   @override
   void initState() {
     super.initState();
-    fetchTopAdImages();
-    fetchBottomAdImages();
-    fetchTrusted();
+    loadHomeData();
+  }
+
+  Future<void> loadHomeData() async {
+    try {
+      await Future.wait([
+        fetchTopAdImages(),
+        fetchBottomAdImages(),
+        fetchTrusted(),
+        youtubelink(),
+      ]);
+    } catch (e) {
+      debugPrint("Home Load Error: $e");
+    } finally {
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   Future<void> fetchTopAdImages() async {
@@ -114,29 +134,61 @@ class _HomescreenState extends State<Homescreen> {
     }
   }
 
+  String? ytube;
+
+  Future<void> youtubelink() async {
+    final url = Uri.parse("https://app.evahansevai.com/api/views/homepage/middlead");
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Accept' : 'application/json',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    try {
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        setState(() {
+          ytube = data['iframe_code'];
+        });
+
+      } else {
+        throw Exception("Youtube Ad fetch failed: ${response.statusCode}");
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bg,
-      body: Column(
-        children: [
-          topadimageList.isEmpty
-            ? SizedBox(
-                height: 180,
-                child: Center(child: CircularProgressIndicator(color: kred,)),
-              )
-            : Carousel(imageList: topadimageList),
-          SizedBox(height: 20),
-          Promotionbox(imageUrls: imageUrls),
-          SizedBox(height: 20),
-          bottomadimageList.isEmpty
-            ? SizedBox(
-                height: 180,
-                child: Center(child: CircularProgressIndicator(color: kred,)),
-              )
-            : Carousel(imageList: bottomadimageList),
-        ],
-      ),
+      body: isLoading
+        ? Center(
+            child: CircularProgressIndicator(color: kred),
+          )
+        : SingleChildScrollView(
+            child: Column(
+              children: [
+                Carousel(imageList: topadimageList),
+                SizedBox(height: 20),
+
+                Promotionbox(imageUrls: imageUrls),
+                SizedBox(height: 20),
+
+                if (ytube != null) youtube(link: ytube!),
+                SizedBox(height: 10),
+
+                Carousel(imageList: bottomadimageList),
+                SizedBox(height: 30),
+              ],
+            ),
+          ),
     );
   }
 }
