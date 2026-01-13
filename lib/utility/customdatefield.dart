@@ -114,7 +114,7 @@ class _DateofbirthfieldState extends State<Dateofbirthfield> {
                       icon: const Icon(Icons.date_range),
                       onPressed: _selectDate,
                     ),
-                    hintText: "dd-mm-yyyy",
+                    hintText: "yyyy-MM-dd",
                     hintStyle: TextStyle(
                       fontSize: fs10
                     ),
@@ -124,7 +124,7 @@ class _DateofbirthfieldState extends State<Dateofbirthfield> {
                   onChanged: (value) {
                     if (value.length == 10) {
                       try {
-                        DateTime dob = DateFormat("dd-MM-yyyy").parseStrict(value);
+                        DateTime dob = DateFormat("yyyy-MM-dd").parseStrict(value);
                         if (dob.isAfter(DateTime.now())) {
                           Fluttertoast.showToast(msg: "Date cannot be in the future");
                           widget.datecontroller.clear();
@@ -253,7 +253,7 @@ class _FollowupdateState extends State<Followupdate> {
                       icon: const Icon(Icons.date_range),
                       onPressed: _selectDate,
                     ),
-                    hintText: "dd-mm-yyyy",
+                    hintText: "yyyy-MM-dd",
                     hintStyle: TextStyle(
                       fontSize: fs10
                     ),
@@ -263,7 +263,7 @@ class _FollowupdateState extends State<Followupdate> {
                   onChanged: (value) {
                     if (value.length == 10) {
                       try {
-                        DateTime dob = DateFormat("dd-MM-yyyy").parseStrict(value);
+                        DateTime dob = DateFormat("yyyy-MM-dd").parseStrict(value);
           
                         if (dob.isAfter(DateTime.now())) {
                           Fluttertoast.showToast(msg: "Date cannot be in the future");

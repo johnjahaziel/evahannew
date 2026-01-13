@@ -14,37 +14,39 @@ const List<Map<String, String>> bloodgroupItems = [
   {'label': 'O-', 'value': 'O-'},
 ];
 
-textfield(String title, TextEditingController controller, {bool numpad = false}) => Column(
+textfield(
+  String title,
+  TextEditingController controller, {
+  bool numpad = false,
+  FocusNode? focusNode,
+}) =>
+Column(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
     Text(
       title,
-      style: TextStyle(
+      style: const TextStyle(
         fontFamily: 'Poppins',
-        color: Color(0xff919EAB)
+        color: Color(0xff919EAB),
       ),
     ),
     Padding(
       padding: const EdgeInsets.only(top: 5),
-      child: SizedBox(
-        child: TextField(
-          maxLines: 1,
-          controller: controller,
-          keyboardType: numpad == true ? TextInputType.number : TextInputType.text,
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: Color(0xff919EAB)
-              )
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: Color(0xff919EAB)
-              )
-            )
-          )
+      child: TextField(
+        focusNode: focusNode,
+        controller: controller,
+        maxLines: 1,
+        keyboardType:
+            numpad ? TextInputType.number : TextInputType.text,
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: Color(0xff919EAB)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: Color(0xff919EAB)),
+          ),
         ),
       ),
     ),

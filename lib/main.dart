@@ -1,6 +1,7 @@
 import 'package:evahan/login.dart';
 import 'package:evahan/navigation.dart';
 import 'package:evahan/providers/languageprovider.dart';
+import 'package:evahan/providers/numberprovider.dart';
 import 'package:evahan/providers/userprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +24,9 @@ Future<void> main() async{
         ),
         ChangeNotifierProvider(
           create: (_) => Languageprovider()
+        ),
+        ChangeNotifierProvider(
+          create: (_) => Numberprovider()
         )
       ],
       child: MyApp(isLoggedIn: isLoggedIn),

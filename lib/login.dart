@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:evahan/navigation.dart';
 import 'package:evahan/providers/languageprovider.dart';
 import 'package:evahan/providers/userprovider.dart';
+import 'package:evahan/screens/forgetpassword.dart';
 import 'package:evahan/signup.dart';
 import 'package:evahan/utility/customs.dart';
 import 'package:evahan/utility/styles.dart';
@@ -164,11 +165,11 @@ class _LoginState extends State<Login> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          // showModalBottomSheet(
-                          //   backgroundColor: Colors.white,
-                          //   context: context,
-                          //   builder: (_) => Forgetpassword(),
-                          // );
+                          showModalBottomSheet(
+                            backgroundColor: Colors.white,
+                            context: context,
+                            builder: (_) => Forgetpassword(),
+                          );
                         },
                         child: Text(
                           isTamil

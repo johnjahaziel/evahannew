@@ -3,8 +3,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:evahan/login.dart';
 import 'package:evahan/providers/languageprovider.dart';
+import 'package:evahan/screens/verifyotp.dart';
 import 'package:evahan/utility/customdatefield.dart';
 import 'package:evahan/utility/customdropdown.dart';
 import 'package:evahan/utility/customs.dart';
@@ -53,6 +53,24 @@ class _SignupState extends State<Signup> {
   String? selectedtaluk;
 
   File? selectedImage;
+
+  String firstnamee = '';
+  String lastnamee = '';
+  String emaile = '';
+  String mobilee = '';
+  String passwordtexte = '';
+  String aadhare = '';
+  String businessnamee = '';
+  String businessaddresse = '';
+  String datecontrollere = '';
+  String insurancedatee = '';
+  String insuranceide = '';
+  String bloodgroupItemse = '';
+  String selectedCategorye = '';
+  String selectedStatee = '';
+  String selectedDistricte = '';
+  String selectedtaluke = '';
+  String selectedImagee = '';
 
   @override
   void initState() {
@@ -188,10 +206,13 @@ class _SignupState extends State<Signup> {
       request.fields['email'] = email.text;
       request.fields['phone_number'] = mobile.text;
       request.fields['password'] = passwordtext.text;
-      request.fields['category_id'] = selectedCategory.toString();
-      request.fields['state_code'] = selectedState.toString();
-      request.fields['district_code'] = selectedDistrict.toString();
-      request.fields['village_code'] = selectedtaluk.toString();
+      request.fields['category_id'] = selectedCategory?.toString() ?? '';
+      request.fields['state_code'] = '33';
+      request.fields['district_code'] = '592';
+      request.fields['village_code'] = '5878';
+      // request.fields['state_code'] = selectedState.toString();
+      // request.fields['district_code'] = selectedDistrict.toString();
+      // request.fields['village_code'] = selectedtaluk.toString();
       request.fields['aadhar'] = aadhar.text;
       request.fields['business_name'] = businessname.text;
       request.fields['business_address'] = businessaddress.text;
@@ -239,50 +260,43 @@ class _SignupState extends State<Signup> {
       final responseBody = await response.stream.bytesToString();
       final jsonResp = jsonDecode(responseBody);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         Fluttertoast.showToast(msg: jsonResp['message']);
 
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text(
-                'Registration is Successful',
-                style: TextStyle(
-                  fontFamily: 'Poppins'
-                ),
-              ),
-              content: Text(
-                'our admin will contact you through Email',
-                style: TextStyle(
-                  fontFamily: 'Poppins'
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Login()
-                      ),
-                      (Route<dynamic> route) => false,
-                    );
-                  },
-                  child: Text(
-                    'OK',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold
-                    ),
-                  )
-                )
-              ],
-            );
-          }
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Verifyotp(
+              phonenumber: mobile.text,
+            )
+          )
         );
 
         print(jsonResp);
+      } else if (response.statusCode == 422) {
+
+        final errors = jsonResp['errors'];
+
+        setState(() {
+          firstnamee = errors['first_name']?.toString() ?? '';
+          lastnamee = errors['last_name']?.toString() ?? '';
+          emaile = errors['email']?.toString() ?? '';
+          mobilee = errors['phone_number']?.toString() ?? '';
+          passwordtexte = errors['password']?.toString() ?? '';
+          selectedCategorye = errors['category_id']?.toString() ?? '';
+          selectedStatee = errors['state_code']?.toString() ?? '';
+          selectedDistricte = errors['district_code']?.toString() ?? '';
+          selectedtaluke = errors['village_code']?.toString() ?? '';
+          aadhare = errors['aadhar']?.toString() ?? '';
+          businessnamee = errors['business_name']?.toString() ?? '';
+          businessaddresse = errors['business_address']?.toString() ?? '';
+          bloodgroupItemse = errors['blood_group']?.toString() ?? '';
+          datecontrollere = errors['dob']?.toString() ?? '';
+          insuranceide = errors['insurance_id']?.toString() ?? '';
+          insurancedatee = errors['insurance_exp_date']?.toString() ?? '';
+          selectedImagee = errors['photo']?.toString() ?? '';
+        });
+
       } else {
         Fluttertoast.showToast(msg: jsonResp['message'] ?? "Sign Up Failed");
 
@@ -325,24 +339,32 @@ class _SignupState extends State<Signup> {
                 'Eg. John',
                 firstname
               ),
+              if (firstnamee.isNotEmpty)
+              errortext(firstnamee),
               const SizedBox(height: 12,),
               textfield2(
                 isTamil ? 'கடைசி பெயர்' : 'Last Name',
                 'Eg. Wick',
                 lastname
               ),
+              if (lastnamee.isNotEmpty)
+              errortext(lastnamee),
               const SizedBox(height: 12,),
               textfield2(
                 isTamil ? 'மின்னஞ்சல்' : 'Email',
                 'evahann@gmail.com',
                 email
               ),
+              if (emaile.isNotEmpty)
+              errortext(emaile),
               const SizedBox(height: 12,),
               textfield2(
                 isTamil ? 'கைபேசி' : 'Mobile',
                 '1234567890',
                 mobile
               ),
+              if (mobilee.isNotEmpty)
+              errortext(mobilee),
               const SizedBox(height: 12,),
               passwordsignup(
                 isTamil ? 'கடவுச்சொல்' : 'Password',
@@ -368,6 +390,8 @@ class _SignupState extends State<Signup> {
                 isPassword,
                 passwordtext,
               ),
+              if (passwordtexte.isNotEmpty)
+              errortext(passwordtexte),
               const SizedBox(height: 12,),
               CustomDropdownDropdown(
                 title: 'Blood Group',
@@ -379,6 +403,8 @@ class _SignupState extends State<Signup> {
                   });
                 },
               ),
+              if (bloodgroupItemse.isNotEmpty)
+              errortext(bloodgroupItemse),
               const SizedBox(height: 12,),
               Dateofbirthfield(
                 title: 'Date of Birth',
@@ -386,12 +412,16 @@ class _SignupState extends State<Signup> {
                 star: false,
                 padding: true,
               ),
+              if (datecontrollere.isNotEmpty)
+              errortext(datecontrollere),
               const SizedBox(height: 12,),
               textfield2(
                 isTamil ? 'காப்பீட்டு அடையாள எண்' : 'Insurance ID',
                 '1234567890',
                 insuranceid
               ),
+              if (insuranceide.isNotEmpty)
+              errortext(insuranceide),
               const SizedBox(height: 12,),
               Followupdate(
                 title: 'Insurance Exp',
@@ -399,40 +429,58 @@ class _SignupState extends State<Signup> {
                 star: false,
                 padding: true,
               ),
+              if (insurancedatee.isNotEmpty)
+              errortext(insurancedatee),
               const SizedBox(height: 12,),
               texty(
                 isTamil ? 'வகை' : 'Category'
               ),
               categorydropdowm(),
+              if (selectedCategorye.isNotEmpty)
+              errortext(selectedCategorye),
               const SizedBox(height: 12,),
               texty(
                 isTamil ? 'இடம்' : 'Location'
               ),
               statedropdown(),
+              if (selectedStatee.isNotEmpty)
+              errortext(selectedStatee),
               const SizedBox(height: 12,),
               districtDropdown(),
+              if (selectedDistricte.isNotEmpty)
+              errortext(selectedDistricte),
               const SizedBox(height: 12,),
               talukDropdown(),
+              if (selectedtaluke.isNotEmpty)
+              errortext(selectedtaluke),
               const SizedBox(height: 12,),
               textfield2(
                 isTamil ? 'ஆதார்' : 'Aadhaar',
                 'Eg. 416526786532',
                 aadhar
               ),
+              if (aadhare.isNotEmpty)
+              errortext(aadhare),
               const SizedBox(height: 12,),
               textfield2(
                 isTamil ? 'வணிகத்தின் பெயர்' : 'Business Name',
                 'Enterprise',
                 businessname
               ),
+              if (businessnamee.isNotEmpty)
+              errortext(businessnamee),
               const SizedBox(height: 12,),
               textfield2(
                 isTamil ? 'வணிக முகவரி' : 'Business Address',
                 'Eg. no 40 , bharathi street',
                 businessaddress
               ),
+              if (businessaddresse.isNotEmpty)
+              errortext(businessaddresse),
               const SizedBox(height: 12,),
               upload(),
+              if (selectedImagee.isNotEmpty)
+              errortext(selectedImagee),
               const SizedBox(height: 30),
               button(
                 isTamil ? 'சமர்ப்பிக்க' : 'Submit',
