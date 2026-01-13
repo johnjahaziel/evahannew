@@ -67,7 +67,7 @@ String _getLabelForIndex(int index) {
     case 0:
       return 'Home';
     case 1:
-      return 'News';
+      return 'News Letter';
     case 2:
       return 'Report Driver';
     case 3:

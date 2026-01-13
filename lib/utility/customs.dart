@@ -14,6 +14,13 @@ const List<Map<String, String>> bloodgroupItems = [
   {'label': 'O-', 'value': 'O-'},
 ];
 
+const List<Map<String, String>> reasonItems = [
+  {'label': 'Money Theft', 'value': 'Money Theft'},
+  {'label': 'Diesel Theft', 'value': 'Diesel Theft'},
+  {'label': 'Misbehave', 'value': 'Misbehave'},
+  {'label': 'Drink and Drive', 'value': 'Drink and Drive'},
+];
+
 textfield(
   String title,
   TextEditingController controller, {

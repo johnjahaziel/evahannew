@@ -3,7 +3,7 @@ import 'package:evahan/providers/userprovider.dart';
 import 'package:evahan/screens/homescreen.dart';
 import 'package:evahan/screens/newsletter.dart';
 import 'package:evahan/screens/profile.dart';
-import 'package:evahan/screens/reportuser.dart';
+import 'package:evahan/screens/reportdriver.dart';
 import 'package:evahan/screens/reportview.dart';
 import 'package:evahan/size_config.dart';
 import 'package:evahan/utility/customappbar.dart';
@@ -65,7 +65,7 @@ class _NavigationState extends State<Navigation> {
             if(userrole == '1')
             Reportdriver(),
             if(userrole != '1')
-            Reportuser(),
+            Reportform(),
             Profile(userid: userid)
           ],
         ),
