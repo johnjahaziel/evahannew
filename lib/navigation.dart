@@ -62,8 +62,9 @@ class _NavigationState extends State<Navigation> {
           children: [
             Homescreen(),
             Newsletter(),
-            if(userrole == 1)
+            if(userrole == '1')
             Reportdriver(),
+            if(userrole != '1')
             Reportuser(),
             Profile(userid: userid)
           ],
