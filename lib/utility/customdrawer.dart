@@ -8,6 +8,7 @@ import 'package:evahan/screens/approveuser.dart';
 import 'package:evahan/screens/community.dart';
 import 'package:evahan/screens/reportuser.dart';
 import 'package:evahan/screens/search.dart';
+import 'package:evahan/signup.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,7 @@ class _CustomdrawerState extends State<Customdrawer> {
     final isTamil = langProvider.language == 'Tamil';
 
     return Drawer(
+      backgroundColor: kwhite,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,10 +60,10 @@ class _CustomdrawerState extends State<Customdrawer> {
               Icons.person_add_alt,
               isTamil ? 'புதிய பயனர்' : 'New User',
               () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => Signup())
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Signup())
+                );
               }
             ),
           ],

@@ -52,6 +52,7 @@ class _CommunityState extends State<Community> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: kwhite,
         appBar: Customappbar(),
         drawer: Customdrawer(),
         body: isLoading
