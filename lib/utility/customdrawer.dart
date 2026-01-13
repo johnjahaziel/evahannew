@@ -6,6 +6,7 @@ import 'package:evahan/providers/languageprovider.dart';
 import 'package:evahan/providers/userprovider.dart';
 import 'package:evahan/screens/approveuser.dart';
 import 'package:evahan/screens/community.dart';
+import 'package:evahan/screens/reportlist.dart';
 import 'package:evahan/screens/reportuser.dart';
 import 'package:evahan/screens/search.dart';
 import 'package:evahan/signup.dart';
@@ -106,7 +107,7 @@ class _CustomdrawerState extends State<Customdrawer> {
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Navigation(initialIndex: 2))
+                  MaterialPageRoute(builder: (context) => Reportlist())
                 );
               }
             ),

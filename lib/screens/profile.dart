@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:evahan/navigation.dart';
 import 'package:evahan/providers/languageprovider.dart';
+import 'package:evahan/providers/userprovider.dart';
 import 'package:evahan/screens/search.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
@@ -25,6 +29,8 @@ class _ProfileState extends State<Profile> {
   bool isLoading = true;
   bool isGenerating = false;
 
+  File? selectedImage;
+
   String? firstname;
   String? lastname;
   String? email;
@@ -39,6 +45,80 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     fetchUserData();
+  }
+
+  Future<void> pickerImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future<void> uploadphoto() async{
+    final url = Uri.parse('https://app.evahansevai.com/api/user/update-photo');
+
+    final userid = Provider.of<Userprovider>(context, listen: false).userId;
+
+    try {
+      final request = await http.MultipartRequest('POST', url);
+
+      request.fields['user_id'] = userid;
+
+      print('Form Fields:');
+      request.fields.forEach((key, value) {
+        print('$key: $value');
+      });
+
+      if (selectedImage != null) {
+        final fileExtension = selectedImage!.path.split('.').last.toLowerCase();
+        String mimeType = 'image/jpeg';
+
+        if (fileExtension == 'png') {
+          mimeType = 'image/png';
+        } else if (fileExtension != 'jpg' && fileExtension != 'jpeg') {
+          Fluttertoast.showToast(msg: "Unsupported image format. Use JPG, JPEG, or PNG.");
+          return;
+        }
+
+        final file = File(selectedImage!.path);
+        if (!await file.exists()) {
+          Fluttertoast.showToast(msg: "Image file not found.");
+          return;
+        }
+
+        print('Uploading image: ${selectedImage!.path}');
+        print('Image size: ${await file.length()} bytes');
+
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'photo',
+            selectedImage!.path,
+            contentType: MediaType('image', mimeType.split('/').last),
+          ),
+        );
+      }
+
+      var response = await request.send();
+
+      final responseBody = await response.stream.bytesToString();
+
+      final responseData = jsonDecode(responseBody);
+
+      if(response.statusCode == 200) {
+        Fluttertoast.showToast(msg: responseData['message']);
+        await fetchUserData();
+      } else {
+        Fluttertoast.showToast(msg: responseData['message']);
+
+        print(responseData);
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   Future<void> fetchUserData() async {
@@ -231,21 +311,27 @@ class _ProfileState extends State<Profile> {
                                       );
                                     },
                                   ),
-                                  // ListTile(
-                                  //   leading: Icon(
-                                  //     Icons.camera_alt,
-                                  //   ),
-                                  //   title: Text(
-                                  //     'Change Profile Picture',
-                                  //     style: TextStyle(
-                                  //       fontFamily: 'Poppins',
-                                  //       fontWeight: FontWeight.w500,
-                                  //     ),
-                                  //   ),
-                                  //   onTap: () async {
-                                  //     Navigator.pop(context);
-                                  //   },
-                                  // ),
+                                  ListTile(
+                                    leading: Icon(
+                                      Icons.camera_alt,
+                                    ),
+                                    title: Text(
+                                      'Change Profile Picture',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      Navigator.pop(context);
+                                      await pickerImage();
+                                      if (selectedImage != null) {
+                                        await uploadphoto();
+                                      } else {
+                                        Fluttertoast.showToast(msg: "No image selected");
+                                      }
+                                    },
+                                  ),
                                 ],
                               ),
                             )
@@ -263,27 +349,29 @@ class _ProfileState extends State<Profile> {
                           child: Stack(
                             alignment: Alignment.bottomRight,
                             children: [
-                              ClipOval(
-                                child: photo != null && photo.toString().isNotEmpty
-                                  ? Image.network(
-                                      '$photo',
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return Image.asset(
+                              CircleAvatar(
+                                radius: 100,
+                                backgroundColor: Colors.grey.shade200,
+                                backgroundImage: (photo != null && photo.toString().isNotEmpty)
+                                    ? NetworkImage(photo!)
+                                    : const AssetImage('images/user.jpg') as ImageProvider,
+                                onBackgroundImageError: (_, __) {
+                                },
+                                child: (photo == null || photo.toString().isEmpty)
+                                    ? ClipOval(
+                                        child: Image.asset(
                                           'images/user.jpg',
-                                          fit: BoxFit.fill,
-                                        );
-                                      },
-                                    )
-                                  : Image.asset(
-                                      'images/user.jpg',
-                                      fit: BoxFit.fill,
-                                    ),
+                                          fit: BoxFit.cover,
+                                          width: 200,
+                                          height: 200,
+                                        ),
+                                      )
+                                    : null,
                               ),
-                              // const Icon(
-                              //   Icons.edit_square,
-                              //   color: Color.fromARGB(255, 89, 89, 89),
-                              // ),
+                              const Icon(
+                                Icons.edit_square,
+                                color: Color.fromARGB(255, 89, 89, 89),
+                              ),
                             ],
                           ),
                         ),

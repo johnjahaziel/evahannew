@@ -1,4 +1,5 @@
 
+import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomDropdownDropdown extends StatelessWidget {
@@ -48,7 +49,9 @@ class CustomDropdownDropdown extends StatelessWidget {
             height: 55,
             padding: EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: Color(0xffD9D9D9),
+              border: Border.all(
+                color: kblackgrey
+              ),
               borderRadius: BorderRadius.circular(8),
             ),
             child: DropdownButtonHideUnderline(

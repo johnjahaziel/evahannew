@@ -1,19 +1,19 @@
 import 'dart:convert';
 
-import 'package:evahan/utility/customs.dart';
+import 'package:evahan/screens/reportdriver/approveddriver.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
-class Pending extends StatefulWidget {
-  const Pending({super.key});
+class RejectedDriver extends StatefulWidget {
+  const RejectedDriver({super.key});
 
   @override
-  State<Pending> createState() => _PendingState();
+  State<RejectedDriver> createState() => _RejectedDriverState();
 }
 
-class _PendingState extends State<Pending> {
+class _RejectedDriverState extends State<RejectedDriver> {
   bool isLoading = false;
   List<dynamic> alldata = [];
 
@@ -24,7 +24,7 @@ class _PendingState extends State<Pending> {
   }
 
   Future<void> fetchdata() async{
-    final url = Uri.parse('https://app.evahansevai.com/api/report-user');
+    final url = Uri.parse('https://app.evahansevai.com/api/driver-reports/rejected');
 
     setState(() {
       isLoading = true;
@@ -45,12 +45,8 @@ class _PendingState extends State<Pending> {
 
         final data = responseData['data'];
 
-        final filteredList = data
-          .where((item) => item['approval_status'] == 2)
-          .toList();
-
         setState(() {
-          alldata = filteredList;
+          alldata = data;
           isLoading = false;
         });
 
@@ -66,7 +62,7 @@ class _PendingState extends State<Pending> {
           isLoading = false;
         });
 
-        Fluttertoast.showToast(msg: "Failed to load data");
+        Fluttertoast.showToast(msg: responseData['message']);
         // Fluttertoast.showToast(msg: responseData['message']);
       }
     } catch (e) {
@@ -94,14 +90,7 @@ class _PendingState extends State<Pending> {
     : ListView.builder(
       itemCount: adata.length,
       itemBuilder: (context, index) {
-        final data = adata[index];
-        return reportbox(
-          data['issue_description'],
-          data['user_id'].toString(),
-          data['first_name'],
-          data['last_name'],
-          () {},
-        );
+        return reporttakenbox(adata[index],context , () {});
       },
     );
   }

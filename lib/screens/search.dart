@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:evahan/providers/userprovider.dart';
-import 'package:evahan/screens/profile.dart';
+import 'package:evahan/screens/adminusersettings.dart';
 import 'package:evahan/utility/customappbar.dart';
 import 'package:evahan/utility/customdrawer.dart';
 import 'package:evahan/utility/styles.dart';
@@ -118,8 +118,7 @@ class _SearchState extends State<Search> {
                       if (userrole == '1') {
                         Navigator.push(
                           context,
-                          // MaterialPageRoute(builder: (context) => Adminusersettings(userid: user['id'].toString()))
-                          MaterialPageRoute(builder: (context) => Profile(userid: user['id'].toString()))
+                          MaterialPageRoute(builder: (context) => Adminusersettings(userid: user['id'].toString()))
                         );
                       } else {
                         return;

@@ -71,16 +71,10 @@ class _ForgetpasswordState extends State<Forgetpassword> {
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Container(
               decoration: BoxDecoration(
-                color: kgrey,
+                border: Border.all(
+                  color: kblackgrey
+                ),
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0, 2),
-                    color: const Color.fromARGB(255, 191, 191, 191),
-                    blurRadius: 2,
-                    spreadRadius: 1
-                  )
-                ]
               ),
               child: TextField(
                 controller: _usernameController,

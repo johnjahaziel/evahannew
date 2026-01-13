@@ -168,6 +168,7 @@ class _LoginState extends State<Login> {
                           showModalBottomSheet(
                             backgroundColor: Colors.white,
                             context: context,
+                            isScrollControlled: true,
                             builder: (_) => Forgetpassword(),
                           );
                         },

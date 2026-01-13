@@ -105,15 +105,17 @@ decor(String title) => InputDecoration(
     fontFamily: 'Poppins',
     color: kred
   ),
-  filled: true,
-  fillColor: kgrey,
   enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
-    borderSide: BorderSide.none
+    borderSide: BorderSide(
+      color: kblackgrey
+    )
   ),
   focusedBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
-    borderSide: BorderSide.none
+    borderSide: BorderSide(
+      color: kblackgrey
+    )
   )
 );
 

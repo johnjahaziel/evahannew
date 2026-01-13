@@ -36,8 +36,8 @@ class _SignupState extends State<Signup> {
   final TextEditingController businessname = TextEditingController();
   final TextEditingController businessaddress = TextEditingController();
   final TextEditingController datecontroller = TextEditingController();
-  final TextEditingController insurancedate = TextEditingController();
-  final TextEditingController insuranceid = TextEditingController();
+  // final TextEditingController insurancedate = TextEditingController();
+  // final TextEditingController insuranceid = TextEditingController();
 
   final bloodgroupitems = bloodgroupItems;
 
@@ -63,8 +63,8 @@ class _SignupState extends State<Signup> {
   String businessnamee = '';
   String businessaddresse = '';
   String datecontrollere = '';
-  String insurancedatee = '';
-  String insuranceide = '';
+  // String insurancedatee = '';
+  // String insuranceide = '';
   String bloodgroupItemse = '';
   String selectedCategorye = '';
   String selectedStatee = '';
@@ -93,7 +93,7 @@ class _SignupState extends State<Signup> {
     final categoryurl =
         Uri.parse('https://app.evahansevai.com/api/categories');
     final stateurl =
-        Uri.parse('https://app.hopetuti.com/general.php/states');
+        Uri.parse('https://app.evahansevai.com/api/states');
 
     try {
       final categoryresponse = await http.get(categoryurl);
@@ -122,7 +122,7 @@ class _SignupState extends State<Signup> {
 
           statedropdownItems = statedata.map((item) {
             return {
-              'id': item['code'].toString(),
+              'id': item['state_code'].toString(),
               'name': item['name'].toString(),
             };
           }).toList();
@@ -134,7 +134,7 @@ class _SignupState extends State<Signup> {
   }
 
   Future<void> fetchDistricts(String stateCode) async {
-    final districtUrl = Uri.parse('https://app.hopetuti.com/general.php/districts');
+    final districtUrl = Uri.parse('https://app.evahansevai.com/api/districts');
 
     try {
       final response = await http.post(
@@ -166,14 +166,15 @@ class _SignupState extends State<Signup> {
     }
   }
 
-  Future<void> fetchtaluk(String districtCode) async {
-    final talukurl = Uri.parse('https://app.hopetuti.com/general.php/taluks');
+  Future<void> fetchtaluk(String districtCode, String stateCode) async {
+    final talukurl = Uri.parse('https://app.evahansevai.com/api/villages');
 
     try{
       final response = await http.post(
         talukurl,
         headers: {'Content-Type':'application/json'},
         body: jsonEncode({
+          'state_code' : stateCode,
           'district_code': districtCode
         })
       );
@@ -185,7 +186,7 @@ class _SignupState extends State<Signup> {
         setState(() {
           talukdropdownItems = talukdata.map((item) {
             return {
-              'id': item['id'].toString(),
+              'id': item['village_code'].toString(),
               'name': item['name'].toString(),
             };
           }).toList();
@@ -207,19 +208,16 @@ class _SignupState extends State<Signup> {
       request.fields['phone_number'] = mobile.text;
       request.fields['password'] = passwordtext.text;
       request.fields['category_id'] = selectedCategory?.toString() ?? '';
-      request.fields['state_code'] = '33';
-      request.fields['district_code'] = '592';
-      request.fields['village_code'] = '5878';
-      // request.fields['state_code'] = selectedState.toString();
-      // request.fields['district_code'] = selectedDistrict.toString();
-      // request.fields['village_code'] = selectedtaluk.toString();
+      request.fields['state_code'] = selectedState.toString();
+      request.fields['district_code'] = selectedDistrict.toString();
+      request.fields['village_code'] = selectedtaluk.toString();
       request.fields['aadhar'] = aadhar.text;
       request.fields['business_name'] = businessname.text;
       request.fields['business_address'] = businessaddress.text;
       request.fields['blood_group'] = selectedbloodgroupitems!.toString();
       request.fields['dob'] = datecontroller.text;
-      request.fields['insurance_id'] = insuranceid.text;
-      request.fields['insurance_exp_date'] = insurancedate.text;
+      // request.fields['insurance_id'] = insuranceid.text;
+      // request.fields['insurance_exp_date'] = insurancedate.text;
 
       print('Form Fields:');
       request.fields.forEach((key, value) {
@@ -292,8 +290,8 @@ class _SignupState extends State<Signup> {
           businessaddresse = errors['business_address']?.toString() ?? '';
           bloodgroupItemse = errors['blood_group']?.toString() ?? '';
           datecontrollere = errors['dob']?.toString() ?? '';
-          insuranceide = errors['insurance_id']?.toString() ?? '';
-          insurancedatee = errors['insurance_exp_date']?.toString() ?? '';
+          // insuranceide = errors['insurance_id']?.toString() ?? '';
+          // insurancedatee = errors['insurance_exp_date']?.toString() ?? '';
           selectedImagee = errors['photo']?.toString() ?? '';
         });
 
@@ -352,7 +350,7 @@ class _SignupState extends State<Signup> {
               const SizedBox(height: 12,),
               textfield2(
                 isTamil ? 'மின்னஞ்சல்' : 'Email',
-                'evahann@gmail.com',
+                'evahan@gmail.com',
                 email
               ),
               if (emaile.isNotEmpty)
@@ -361,7 +359,8 @@ class _SignupState extends State<Signup> {
               textfield2(
                 isTamil ? 'கைபேசி' : 'Mobile',
                 '1234567890',
-                mobile
+                mobile,
+                numpad: true
               ),
               if (mobilee.isNotEmpty)
               errortext(mobilee),
@@ -415,23 +414,23 @@ class _SignupState extends State<Signup> {
               if (datecontrollere.isNotEmpty)
               errortext(datecontrollere),
               const SizedBox(height: 12,),
-              textfield2(
-                isTamil ? 'காப்பீட்டு அடையாள எண்' : 'Insurance ID',
-                '1234567890',
-                insuranceid
-              ),
-              if (insuranceide.isNotEmpty)
-              errortext(insuranceide),
-              const SizedBox(height: 12,),
-              Followupdate(
-                title: 'Insurance Exp',
-                datecontroller: insurancedate,
-                star: false,
-                padding: true,
-              ),
-              if (insurancedatee.isNotEmpty)
-              errortext(insurancedatee),
-              const SizedBox(height: 12,),
+              // textfield2(
+              //   isTamil ? 'காப்பீட்டு அடையாள எண்' : 'Insurance ID',
+              //   '1234567890',
+              //   insuranceid
+              // ),
+              // if (insuranceide.isNotEmpty)
+              // errortext(insuranceide),
+              // const SizedBox(height: 12,),
+              // Followupdate(
+              //   title: 'Insurance Exp',
+              //   datecontroller: insurancedate,
+              //   star: false,
+              //   padding: true,
+              // ),
+              // if (insurancedatee.isNotEmpty)
+              // errortext(insurancedatee),
+              // const SizedBox(height: 12,),
               texty(
                 isTamil ? 'வகை' : 'Category'
               ),
@@ -457,7 +456,8 @@ class _SignupState extends State<Signup> {
               textfield2(
                 isTamil ? 'ஆதார்' : 'Aadhaar',
                 'Eg. 416526786532',
-                aadhar
+                aadhar,
+                numpad: true
               ),
               if (aadhare.isNotEmpty)
               errortext(aadhare),
@@ -503,7 +503,9 @@ class _SignupState extends State<Signup> {
         height: 55,
         padding: EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: Color(0xffD9D9D9),
+          border: Border.all(
+            color: kblackgrey
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
         child: DropdownButtonHideUnderline(
@@ -557,8 +559,11 @@ class _SignupState extends State<Signup> {
         height: 55,
         padding: EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: Color(0xffD9D9D9),
+          // color: Color(0xffD9D9D9),
           borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: kblackgrey
+          )
         ),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
@@ -612,7 +617,9 @@ class _SignupState extends State<Signup> {
         height: 55,
         padding: EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: Color(0xffD9D9D9),
+          border: Border.all(
+            color: kblackgrey
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
         child: DropdownButton<String>(
@@ -652,7 +659,7 @@ class _SignupState extends State<Signup> {
               selectedDistrict = newValue!;
               selectedtaluk = null;
             });
-            fetchtaluk(newValue!);
+            fetchtaluk(newValue!, selectedState.toString());
           },
         ),
       ),
@@ -666,7 +673,9 @@ class _SignupState extends State<Signup> {
         height: 55,
         padding: EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: Color(0xffD9D9D9),
+          border: Border.all(
+            color: kblackgrey
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
         child: DropdownButton<String>(
@@ -787,7 +796,7 @@ class _SignupState extends State<Signup> {
   );
 }
 
-textfield2(String title, String title2, TextEditingController controller) => Column(
+textfield2(String title, String title2, TextEditingController controller,{bool numpad = false}) => Column(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
     Padding(
@@ -805,6 +814,8 @@ textfield2(String title, String title2, TextEditingController controller) => Col
       child: TextField(
         maxLines: 1,
         controller: controller,
+        keyboardType:
+            numpad ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           hintText: title2,
           hintStyle: TextStyle(
@@ -812,15 +823,17 @@ textfield2(String title, String title2, TextEditingController controller) => Col
             color: Color(0xff6C5B5B),
             fontSize: 11,
           ),
-          filled: true,
-          fillColor: Color(0xffD9D9D9),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none
+            borderSide: BorderSide(
+              color: kblackgrey
+            )
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none
+            borderSide: BorderSide(
+              color: kblackgrey
+            )
           )
         )
       ),
@@ -839,15 +852,17 @@ fieldbox(String title, TextEditingController controller) => Padding(
         color: Color(0xff6C5B5B),
         fontSize: 11,
       ),
-      filled: true,
-      fillColor: Color(0xffD9D9D9),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none
+        borderSide: BorderSide(
+          color: kblackgrey
+        )
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none
+        borderSide: BorderSide(
+          color: kblackgrey
+        )
       )
     )
   ),
@@ -891,17 +906,15 @@ passwordsignup(String title, suffixIcon,bool isPassword,TextEditingController co
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: kgrey
+                color: kblackgrey
               )
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: kgrey
+                color: kblackgrey
               )
             ),
-            filled: true,
-            fillColor: Color(0xffD9D9D9),
             suffixIcon: suffixIcon
           ),
         ),

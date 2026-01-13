@@ -64,14 +64,14 @@ class _AdminusersettingsState extends State<Adminusersettings> {
   }
 
   Future<void> uploadphoto() async{
-    final url = Uri.parse('https://app.hopetuti.com/api.php/user/update/photo');
+    final url = Uri.parse('https://app.evahansevai.com/api/user/update-photo');
 
-    final userId = widget.userid;
+    final userid = widget.userid;
 
     try {
       final request = await http.MultipartRequest('POST', url);
 
-      request.fields['id'] = userId;
+      request.fields['user_id'] = userid;
 
       print('Form Fields:');
       request.fields.forEach((key, value) {
@@ -109,11 +109,17 @@ class _AdminusersettingsState extends State<Adminusersettings> {
 
       var response = await request.send();
 
+      final responseBody = await response.stream.bytesToString();
+
+      final responseData = jsonDecode(responseBody);
+
       if(response.statusCode == 200) {
-        Fluttertoast.showToast(msg: 'Profile updated successfully');
-        await fetchUserData(); 
+        Fluttertoast.showToast(msg: responseData['message']);
+        await fetchUserData();
       } else {
-        Fluttertoast.showToast(msg: 'Error in Uploading');
+        Fluttertoast.showToast(msg: responseData['message']);
+
+        print(responseData);
       }
     } catch (e) {
       print('Error: $e');
@@ -220,42 +226,42 @@ class _AdminusersettingsState extends State<Adminusersettings> {
     }
   }
 
-  Future<void> updateuser() async {
-    final url = Uri.parse('https://app.hopetuti.com/api.php/user/update/admin');
+  // Future<void> updateuser() async {
+  //   final url = Uri.parse('https://app.hopetuti.com/api.php/user/update/admin');
 
-    final userId = widget.userid;
+  //   final userId = widget.userid;
 
-    try {
-      final request = http.MultipartRequest('POST', url);
+  //   try {
+  //     final request = http.MultipartRequest('POST', url);
 
-      request.fields['userId'] = userId;
-      request.fields['email'] = emailcontroller.text;
-      request.fields['phone_number'] = phonecontroller.text;
+  //     request.fields['userId'] = userId;
+  //     request.fields['email'] = emailcontroller.text;
+  //     request.fields['phone_number'] = phonecontroller.text;
 
-      final streamedResponse = await request.send();
+  //     final streamedResponse = await request.send();
 
-      final response = await http.Response.fromStream(streamedResponse);
+  //     final response = await http.Response.fromStream(streamedResponse);
 
-      final responseData = jsonDecode(response.body);
+  //     final responseData = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
+  //     if (response.statusCode == 200) {
 
-        Fluttertoast.showToast(msg: responseData['msg']);
+  //       Fluttertoast.showToast(msg: responseData['msg']);
 
-        await fetchUserData();
+  //       await fetchUserData();
 
-        setState(() {
-          isEditingEmail = false;
-          isEditingPhone = false;
-        });
-      } else {
-        Fluttertoast.showToast(msg: 'Error: ${responseData['msg']}');
-      }
-    } catch (e) {
-      print('Update error: $e');
-      Fluttertoast.showToast(msg: 'An error occurred');
-    }
-  }
+  //       setState(() {
+  //         isEditingEmail = false;
+  //         isEditingPhone = false;
+  //       });
+  //     } else {
+  //       Fluttertoast.showToast(msg: 'Error: ${responseData['msg']}');
+  //     }
+  //   } catch (e) {
+  //     print('Update error: $e');
+  //     Fluttertoast.showToast(msg: 'An error occurred');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -385,27 +391,25 @@ class _AdminusersettingsState extends State<Adminusersettings> {
                         child: Stack(
                           alignment: Alignment.bottomRight,
                           children: [
-                            ClipOval(
-                              child: SizedBox(
-                                width: 100,
-                                height: 100,
-                                child: photo != null && photo.toString().isNotEmpty
-                                    ? Image.network(
-                                        '$photo',
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) {
-                                          return Image.asset(
-                                            'images/user.jpg',
-                                            fit: BoxFit.fill,
-                                          );
-                                        },
-                                      )
-                                    : Image.asset(
+                            CircleAvatar(
+                              radius: 100,
+                              backgroundColor: Colors.grey.shade200,
+                              backgroundImage: (photo != null && photo.toString().isNotEmpty)
+                                  ? NetworkImage(photo!)
+                                  : const AssetImage('images/user.jpg') as ImageProvider,
+                              onBackgroundImageError: (_, __) {
+                              },
+                              child: (photo == null || photo.toString().isEmpty)
+                                  ? ClipOval(
+                                      child: Image.asset(
                                         'images/user.jpg',
-                                        fit: BoxFit.fill,
+                                        fit: BoxFit.cover,
+                                        width: 200,
+                                        height: 200,
                                       ),
+                                    )
+                                  : null,
                               ),
-                            ),
                             const Icon(
                               Icons.edit_square,
                               color: Color.fromARGB(255, 89, 89, 89),
@@ -455,34 +459,14 @@ class _AdminusersettingsState extends State<Adminusersettings> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 12),
-                    profwithedit(
+                    prof(
                       isTamil ? 'மின்னஞ்சல்' : 'Email',
                       '$email',
-                      emailcontroller,
-                      isEditingEmail,
-                      () {
-                        setState(() {
-                          isEditingEmail = !isEditingEmail;
-                          if (isEditingEmail) {
-                            emailcontroller.text = '$email';
-                          }
-                        });
-                      },
                     ),
                     Divider(),
-                    profwithedit(
+                    prof(
                       isTamil ? 'கைபேசி' : 'Phone no.',
                       '$number',
-                      phonecontroller,
-                      isEditingPhone,
-                      () {
-                        setState(() {
-                          isEditingPhone = !isEditingPhone;
-                          if (isEditingPhone) {
-                            phonecontroller.text = '$number' ;
-                          }
-                        });
-                      },
                     ),
                     Divider(),
                     prof(
@@ -492,33 +476,33 @@ class _AdminusersettingsState extends State<Adminusersettings> {
                     Divider(),
                     prof(
                       isTamil ? 'இடம்' : 'Location',
-                      '$village > $district > $state',
+                      '$state > $district > $village',
                     ),
                     SizedBox(height: 10),
                   ],
                 ),
               ),
             ),
-            if(isEditingEmail == true || isEditingPhone == true)
-            Padding(
-              padding: const EdgeInsets.only(top: 20,left: 10),
-              child: ElevatedButton(
-                onPressed: () {
-                  updateuser();
-                },
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(kred)
-                ),
-                child: Text(
-                  "Update User",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
-              ),
-            )
+            // if(isEditingEmail == true || isEditingPhone == true)
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 20,left: 10),
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       updateuser();
+            //     },
+            //     style: ButtonStyle(
+            //       backgroundColor: WidgetStatePropertyAll(kred)
+            //     ),
+            //     child: Text(
+            //       "Update User",
+            //       style: TextStyle(
+            //         color: Colors.white,
+            //         fontFamily: 'Poppins',
+            //         fontWeight: FontWeight.bold
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
         floatingActionButton: ElevatedButton(

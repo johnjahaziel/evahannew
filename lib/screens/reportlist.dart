@@ -1,27 +1,31 @@
-import 'package:evahan/screens/reportdriver/approveddriver.dart';
-import 'package:evahan/screens/reportdriver/pendingdriver.dart';
-import 'package:evahan/screens/reportdriver/rejecteddriver.dart';
+import 'package:evahan/screens/reportlist/approvedlist.dart';
+import 'package:evahan/screens/reportlist/pendinglist.dart';
+import 'package:evahan/screens/reportlist/rejectedlist.dart';
 import 'package:evahan/size_config.dart';
+import 'package:evahan/utility/customappbar.dart';
+import 'package:evahan/utility/customdrawer.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 
-class Reportdriver extends StatefulWidget {
-  const Reportdriver({super.key});
+class Reportlist extends StatefulWidget {
+  const Reportlist({super.key});
 
   @override
-  State<Reportdriver> createState() => _ReportdriverState();
+  State<Reportlist> createState() => _ReportlistState();
 }
 
-class _ReportdriverState extends State<Reportdriver> {
+class _ReportlistState extends State<Reportlist> {
   bool isPendingSelected = true;
   bool isApprovedSelected = false;
   bool isRejectedSelected = false;
-
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
     child: Scaffold(
       backgroundColor: bg,
+      appBar: Customappbar(),
+      drawer: Customdrawer(),
       body: Column(
           children: [
             SizedBox(height: 20),
@@ -137,10 +141,10 @@ class _ReportdriverState extends State<Reportdriver> {
 
             Expanded(
               child: isPendingSelected
-                ? PendingDriver()
+                ? Pending()
                 : isApprovedSelected
-                    ? Approved()
-                    : RejectedDriver(),
+                    ? ApprovedDriver()
+                    : Rejected(),
             )
 
           ],

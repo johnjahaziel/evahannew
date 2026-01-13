@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
-class Approved extends StatefulWidget {
-  const Approved({super.key});
+class Rejected extends StatefulWidget {
+  const Rejected({super.key});
 
   @override
-  State<Approved> createState() => _ApprovedState();
+  State<Rejected> createState() => _RejectedState();
 }
 
-class _ApprovedState extends State<Approved> {
+class _RejectedState extends State<Rejected> {
   bool isLoading = false;
   List<dynamic> alldata = [];
 
@@ -46,7 +46,7 @@ class _ApprovedState extends State<Approved> {
         final data = responseData['data'];
 
         final filteredList = data
-          .where((item) => item['approval_status'] == 1)
+          .where((item) => item['approval_status'] == 3)
           .toList();
 
         setState(() {
@@ -59,7 +59,8 @@ class _ApprovedState extends State<Approved> {
         // Fluttertoast.showToast(msg: responseData['message']);
 
       } else {
-        print('Error: $response');
+        print('Status Code: ${response.statusCode}');
+        print('Response Body: ${response.body}');
 
         setState(() {
           alldata = [];

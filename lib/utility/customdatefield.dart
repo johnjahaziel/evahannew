@@ -104,11 +104,11 @@ class _DateofbirthfieldState extends State<Dateofbirthfield> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: kgrey),
+                      borderSide: BorderSide(color: kblackgrey),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: kgrey),
+                      borderSide: BorderSide(color: kblackgrey),
                     ),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.date_range),
@@ -118,8 +118,6 @@ class _DateofbirthfieldState extends State<Dateofbirthfield> {
                     hintStyle: TextStyle(
                       fontSize: fs10
                     ),
-                    filled: true,
-                    fillColor: Color(0xffD9D9D9),
                   ),
                   onChanged: (value) {
                     if (value.length == 10) {
@@ -243,11 +241,11 @@ class _FollowupdateState extends State<Followupdate> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: kgrey),
+                      borderSide: BorderSide(color: kblackgrey),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: kgrey),
+                      borderSide: BorderSide(color: kblackgrey),
                     ),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.date_range),
@@ -257,8 +255,6 @@ class _FollowupdateState extends State<Followupdate> {
                     hintStyle: TextStyle(
                       fontSize: fs10
                     ),
-                    filled: true,
-                    fillColor: Color(0xffD9D9D9),
                   ),
                   onChanged: (value) {
                     if (value.length == 10) {

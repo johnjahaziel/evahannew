@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
-class Rejected extends StatefulWidget {
-  const Rejected({super.key});
+class ApprovedDriver extends StatefulWidget {
+  const ApprovedDriver({super.key});
 
   @override
-  State<Rejected> createState() => _RejectedState();
+  State<ApprovedDriver> createState() => _ApprovedDriverState();
 }
 
-class _RejectedState extends State<Rejected> {
+class _ApprovedDriverState extends State<ApprovedDriver> {
   bool isLoading = false;
   List<dynamic> alldata = [];
 
@@ -46,7 +46,7 @@ class _RejectedState extends State<Rejected> {
         final data = responseData['data'];
 
         final filteredList = data
-          .where((item) => item['approval_status'] == 3)
+          .where((item) => item['approval_status'] == 1)
           .toList();
 
         setState(() {
