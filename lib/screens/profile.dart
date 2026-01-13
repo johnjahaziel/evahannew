@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:evahan/navigation.dart';
 import 'package:evahan/providers/languageprovider.dart';
 import 'package:evahan/screens/search.dart';
-import 'package:evahan/utility/customappbar.dart';
-import 'package:evahan/utility/customdrawer.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -150,8 +148,8 @@ class _ProfileState extends State<Profile> {
     
     return SafeArea(
       child: Scaffold(
-        appBar: Customappbar(),
-        drawer: Customdrawer(),
+        // appBar: Customappbar(),
+        // drawer: Customdrawer(),
           backgroundColor: Colors.white,
           body: isLoading ?
             Center(child: CircularProgressIndicator(color: kred))

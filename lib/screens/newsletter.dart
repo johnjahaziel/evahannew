@@ -95,7 +95,7 @@ class _NewsletterState extends State<Newsletter> {
             ),
           ],
         ),
-        floatingActionButton: userrole == 1 ? FloatingActionButton(
+        floatingActionButton: userrole == '1' ? FloatingActionButton(
           onPressed: () {
             Navigator.push(
               context,
