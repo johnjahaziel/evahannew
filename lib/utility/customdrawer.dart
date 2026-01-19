@@ -6,6 +6,7 @@ import 'package:evahan/providers/languageprovider.dart';
 import 'package:evahan/providers/userprovider.dart';
 import 'package:evahan/screens/approveuser.dart';
 import 'package:evahan/screens/community.dart';
+import 'package:evahan/screens/reportdriver.dart';
 import 'package:evahan/screens/reportlist.dart';
 import 'package:evahan/screens/reportuser.dart';
 import 'package:evahan/screens/search.dart';
@@ -108,6 +109,18 @@ class _CustomdrawerState extends State<Customdrawer> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Reportlist())
+                );
+              }
+            ),
+          ],
+          if(userrole == '1') ...[
+            drawerlist(
+              Icons.report_problem,
+              isTamil ? 'ஓட்டுநர் புகார்' :  'Report Driver',
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Reportform())
                 );
               }
             ),
