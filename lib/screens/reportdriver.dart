@@ -253,6 +253,7 @@ class _ReportformState extends State<Reportform> {
     final isTamil = langProvider.language == 'Tamil';
     
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
