@@ -64,28 +64,22 @@ class _CommunityState extends State<Community> {
                   children: [
 
                     _sectionTitle("Leadership"),
-                    Row(
+                    Column(
                       children: [
-                        Expanded(
-                          child: _bigRoleCard(
-                            title: "President",
-                            name: fixedRoles['president'],
-                            color: Colors.orange,
-                          ),
+                        _bigRoleCard(
+                          title: "President",
+                          name: fixedRoles['president'],
+                          color: Colors.orange,
                         ),
-                        Expanded(
-                          child: _bigRoleCard(
-                            title: "Secretary",
-                            name: fixedRoles['secretary'],
-                            color: Colors.blue,
-                          ),
+                        _bigRoleCard(
+                          title: "Secretary",
+                          name: fixedRoles['secretary'],
+                          color: Colors.blue,
                         ),
-                        Expanded(
-                          child: _bigRoleCard(
-                            title: "Treasurer",
-                            name: fixedRoles['treasurer'],
-                            color: Colors.green,
-                          ),
+                        _bigRoleCard(
+                          title: "Treasurer",
+                          name: fixedRoles['treasurer'],
+                          color: Colors.green,
                         ),
                       ],
                     ),
@@ -117,10 +111,10 @@ class _CommunityState extends State<Community> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: members.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                        childAspectRatio: 3.2,
+                        crossAxisCount: 1,
+                        // crossAxisSpacing: 12,
+                        // mainAxisSpacing: 12,
+                        childAspectRatio: 8,
                       ),
                       itemBuilder: (context, index) {
                         return _memberTile(members[index]);
@@ -145,6 +139,7 @@ Widget _bigRoleCard({
     margin: const EdgeInsets.all(6),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
     child: Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),

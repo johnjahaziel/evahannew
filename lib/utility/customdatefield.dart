@@ -281,12 +281,36 @@ class _FollowupdateState extends State<Followupdate> {
   }
 }
 
+// class DateInputFormatter extends TextInputFormatter {
+//   @override
+//   TextEditingValue formatEditUpdate(
+//       TextEditingValue oldValue, TextEditingValue newValue) {
+    
+//     String input = newValue.text.replaceAll('-', '');
+
+//     if (input.length > 8) return oldValue;
+
+//     StringBuffer buffer = StringBuffer();
+
+//     for (int i = 0; i < input.length; i++) {
+//       buffer.write(input[i]);
+//       if (i == 1 || i == 3) buffer.write('-'); 
+//     }
+
+//     return TextEditingValue(
+//       text: buffer.toString(),
+//       selection: TextSelection.collapsed(offset: buffer.length),
+//     );
+//   }
+// }
+
 class DateInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    
-    String input = newValue.text.replaceAll('-', '');
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    String input = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
 
     if (input.length > 8) return oldValue;
 
@@ -294,7 +318,8 @@ class DateInputFormatter extends TextInputFormatter {
 
     for (int i = 0; i < input.length; i++) {
       buffer.write(input[i]);
-      if (i == 1 || i == 3) buffer.write('-'); 
+
+      if (i == 3 || i == 5) buffer.write('-');
     }
 
     return TextEditingValue(
