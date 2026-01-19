@@ -33,7 +33,7 @@ class _PendingState extends State<Pending> {
     });
 
     final url = Uri.parse(
-      'https://app.evahansevai.com/api/report-user',
+      'https://app.evahansevai.com/api/report-user/update-status',
     );
 
     try {
@@ -44,7 +44,7 @@ class _PendingState extends State<Pending> {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          "id": userId,
+          "report_id": userId,
           "status": status,
         }),
       );
@@ -89,11 +89,11 @@ class _PendingState extends State<Pending> {
   }
 
   void _rejectDriver(String userid) {
-    _updateDriverStatus(userid, "0");
+    _updateDriverStatus(userid, "3");
   }
 
   Future<void> fetchdata() async{
-    final url = Uri.parse('https://app.evahansevai.com/api/report-user');
+    final url = Uri.parse('https://app.evahansevai.com/api/report-user/pending');
 
     setState(() {
       isLoading = true;
@@ -114,12 +114,8 @@ class _PendingState extends State<Pending> {
 
         final data = responseData['data'];
 
-        final filteredList = data
-          .where((item) => item['approval_status'] == 2)
-          .toList();
-
         setState(() {
-          alldata = filteredList;
+          alldata = data;
           isLoading = false;
         });
 
@@ -167,8 +163,7 @@ class _PendingState extends State<Pending> {
         return reportbox(
           data['issue_description'],
           data['user_id'].toString(),
-          data['first_name'],
-          data['last_name'],
+          data['created_at'],
           () {
             _showActionSheet(
               context,

@@ -302,7 +302,6 @@ class _SignupState extends State<Signup> {
       }
     } catch (e) {
       print("Error: $e");
-      Fluttertoast.showToast(msg: "Error occurred during registration");
     }
   }
 

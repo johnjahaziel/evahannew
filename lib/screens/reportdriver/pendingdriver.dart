@@ -114,8 +114,12 @@ class _PendingDriverState extends State<PendingDriver> {
 
         final data = responseData['data'];
 
+        final filteredList = data
+          .where((item) => item['status'] == 2)
+          .toList();
+
         setState(() {
-          alldata = data;
+          alldata = filteredList;
           isLoading = false;
         });
 

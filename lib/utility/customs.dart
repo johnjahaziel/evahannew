@@ -422,8 +422,9 @@ Widget youtube({required String link}) {
 Widget reportbox(
   String title,
   String userid,
-  String firstName,
-  String lastName,
+  String createdAt,
+  // String firstName,
+  // String lastName,
   VoidCallback onTap
 ) {
   return Padding(
@@ -494,19 +495,36 @@ Widget reportbox(
                       Expanded(
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.person
-                            ),
+                            // Icon(
+                            //   Icons.person
+                            // ),
                             
-                            const SizedBox(width: 10),
+                            // const SizedBox(width: 10),
                             
-                            Text(
-                              "$firstName $lastName",
-                              style: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
+                            // Text(
+                            //   "$firstName $lastName",
+                            //   style: const TextStyle(
+                            //     fontFamily: 'Poppins',
+                            //     fontSize: 13,
+                            //     fontWeight: FontWeight.w500,
+                            //   ),
+                            // ),
+
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF4F6F8),
+                                borderRadius: BorderRadius.circular(20),
                               ),
+                              child: Text(
+                                formatDateTime(createdAt),
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 11,
+                                  color: Color(0xFF666666),
+                                ),
+                              )
                             ),
                           ],
                         ),
@@ -540,8 +558,9 @@ Widget reportbox(
 Widget reporttakenbox(
   String title,
   String userid,
-  String firstName,
-  String lastName,
+  String createdAt,
+  // String firstName,
+  // String lastName,
 ) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -610,20 +629,38 @@ Widget reporttakenbox(
                     children: [
                       Expanded(
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Icon(
-                              Icons.person
-                            ),
+                            // Icon(
+                            //   Icons.person
+                            // ),
                             
-                            const SizedBox(width: 10),
+                            // const SizedBox(width: 10),
                             
-                            Text(
-                              "$firstName $lastName",
-                              style: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
+                            // Text(
+                            //   "$firstName $lastName",
+                            //   style: const TextStyle(
+                            //     fontFamily: 'Poppins',
+                            //     fontSize: 13,
+                            //     fontWeight: FontWeight.w500,
+                            //   ),
+                            // ),
+
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF4F6F8),
+                                borderRadius: BorderRadius.circular(20),
                               ),
+                              child: Text(
+                                formatDateTime(createdAt),
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 11,
+                                  color: Color(0xFF666666),
+                                ),
+                              )
                             ),
                           ],
                         ),

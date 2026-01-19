@@ -61,8 +61,8 @@ class _ReportuserState extends State<Reportuser> {
         Fluttertoast.showToast(msg: responseData['message']);
 
         setState(() {
-          useride = responseData['errors']['user_id'];
-          descriptione = responseData['errors']['issue_description'];
+          useride = responseData['errors']['user_id']?.toString() ?? '';
+          descriptione = responseData['errors']['issue_description']?.toString() ?? '';
         });
 
         setState(() {

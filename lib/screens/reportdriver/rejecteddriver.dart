@@ -24,7 +24,7 @@ class _RejectedDriverState extends State<RejectedDriver> {
   }
 
   Future<void> fetchdata() async{
-    final url = Uri.parse('https://app.evahansevai.com/api/driver-reports/rejected');
+    final url = Uri.parse('https://app.evahansevai.com/api/reports/rejected');
 
     setState(() {
       isLoading = true;

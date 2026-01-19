@@ -24,7 +24,7 @@ class _RejectedState extends State<Rejected> {
   }
 
   Future<void> fetchdata() async{
-    final url = Uri.parse('https://app.evahansevai.com/api/report-user');
+    final url = Uri.parse('https://app.evahansevai.com/api/report-user/rejected');
 
     setState(() {
       isLoading = true;
@@ -45,12 +45,8 @@ class _RejectedState extends State<Rejected> {
 
         final data = responseData['data'];
 
-        final filteredList = data
-          .where((item) => item['approval_status'] == 3)
-          .toList();
-
         setState(() {
-          alldata = filteredList;
+          alldata = data;
           isLoading = false;
         });
 
@@ -99,8 +95,7 @@ class _RejectedState extends State<Rejected> {
         return reporttakenbox(
           data['issue_description'],
           data['user_id'].toString(),
-          data['first_name'],
-          data['last_name']
+          data['created_at'],
         );
       },
     );
