@@ -15,7 +15,7 @@ plugins {
 }
 
 android {
-    namespace = "com.bluontech.evahan"
+    namespace = "com.evahan.evahan"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -29,7 +29,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.bluontech.evahan"
+        applicationId = "com.evahan.evahan"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
