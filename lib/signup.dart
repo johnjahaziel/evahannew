@@ -15,6 +15,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Signup extends StatefulWidget {
@@ -215,7 +216,7 @@ class _SignupState extends State<Signup> {
       request.fields['business_name'] = businessname.text;
       request.fields['business_address'] = businessaddress.text;
       request.fields['blood_group'] = selectedbloodgroupitems!.toString();
-      request.fields['dob'] = datecontroller.text;
+      request.fields['dob'] = DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(datecontroller.text));
       // request.fields['insurance_id'] = insuranceid.text;
       // request.fields['insurance_exp_date'] = insurancedate.text;
 

@@ -53,9 +53,10 @@ class _DateofbirthfieldState extends State<Dateofbirthfield> {
     );
 
     if (pickedDate != null) {
-      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+      String displayDate = DateFormat('dd-MM-yyyy').format(pickedDate);
+
       setState(() {
-        widget.datecontroller.text = formattedDate;
+        widget.datecontroller.text = displayDate;
       });
     }
   }
@@ -114,7 +115,7 @@ class _DateofbirthfieldState extends State<Dateofbirthfield> {
                       icon: const Icon(Icons.date_range),
                       onPressed: _selectDate,
                     ),
-                    hintText: "yyyy-MM-dd",
+                    hintText: "dd-MM-yyyy",
                     hintStyle: TextStyle(
                       fontSize: fs10
                     ),
@@ -122,7 +123,7 @@ class _DateofbirthfieldState extends State<Dateofbirthfield> {
                   onChanged: (value) {
                     if (value.length == 10) {
                       try {
-                        DateTime dob = DateFormat("yyyy-MM-dd").parseStrict(value);
+                        DateTime dob = DateFormat("dd-MM-yyyy").parseStrict(value);
                         if (dob.isAfter(DateTime.now())) {
                           Fluttertoast.showToast(msg: "Date cannot be in the future");
                           widget.datecontroller.clear();
@@ -281,29 +282,6 @@ class _FollowupdateState extends State<Followupdate> {
   }
 }
 
-// class DateInputFormatter extends TextInputFormatter {
-//   @override
-//   TextEditingValue formatEditUpdate(
-//       TextEditingValue oldValue, TextEditingValue newValue) {
-    
-//     String input = newValue.text.replaceAll('-', '');
-
-//     if (input.length > 8) return oldValue;
-
-//     StringBuffer buffer = StringBuffer();
-
-//     for (int i = 0; i < input.length; i++) {
-//       buffer.write(input[i]);
-//       if (i == 1 || i == 3) buffer.write('-'); 
-//     }
-
-//     return TextEditingValue(
-//       text: buffer.toString(),
-//       selection: TextSelection.collapsed(offset: buffer.length),
-//     );
-//   }
-// }
-
 class DateInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
@@ -319,7 +297,8 @@ class DateInputFormatter extends TextInputFormatter {
     for (int i = 0; i < input.length; i++) {
       buffer.write(input[i]);
 
-      if (i == 3 || i == 5) buffer.write('-');
+      // dd-MM-yyyy
+      if (i == 1 || i == 3) buffer.write('-');
     }
 
     return TextEditingValue(

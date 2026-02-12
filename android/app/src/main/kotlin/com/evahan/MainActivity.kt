@@ -1,4 +1,4 @@
-package com.evahan.evahan
+package com.evahan
 
 import io.flutter.embedding.android.FlutterActivity
 
