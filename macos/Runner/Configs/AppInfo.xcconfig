@@ -8,7 +8,7 @@
 PRODUCT_NAME = evahan
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.bluontech.evahan
+PRODUCT_BUNDLE_IDENTIFIER = com.evahan
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2025 com.bluontech. All rights reserved.
