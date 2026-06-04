@@ -26,16 +26,12 @@ textfield(
   TextEditingController controller, {
   bool numpad = false,
   FocusNode? focusNode,
-}) =>
-Column(
+}) => Column(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
     Text(
       title,
-      style: const TextStyle(
-        fontFamily: 'Poppins',
-        color: Color(0xff919EAB),
-      ),
+      style: const TextStyle(fontFamily: 'Poppins', color: Color(0xff919EAB)),
     ),
     Padding(
       padding: const EdgeInsets.only(top: 5),
@@ -43,8 +39,7 @@ Column(
         focusNode: focusNode,
         controller: controller,
         maxLines: 1,
-        keyboardType:
-            numpad ? TextInputType.number : TextInputType.text,
+        keyboardType: numpad ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
@@ -60,15 +55,17 @@ Column(
   ],
 );
 
-password(String title, suffixIcon,bool isPassword,TextEditingController controller) => Column(
+password(
+  String title,
+  suffixIcon,
+  bool isPassword,
+  TextEditingController controller,
+) => Column(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
     Text(
       title,
-      style: TextStyle(
-        fontFamily: 'Poppins',
-        color: Color(0xff919EAB)
-      ),
+      style: TextStyle(fontFamily: 'Poppins', color: Color(0xff919EAB)),
     ),
     Padding(
       padding: const EdgeInsets.only(top: 5),
@@ -79,17 +76,13 @@ password(String title, suffixIcon,bool isPassword,TextEditingController controll
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: Color(0xff919EAB)
-            )
+            borderSide: BorderSide(color: Color(0xff919EAB)),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: Color(0xff919EAB)
-            )
+            borderSide: BorderSide(color: Color(0xff919EAB)),
           ),
-          suffixIcon: suffixIcon
+          suffixIcon: suffixIcon,
         ),
       ),
     ),
@@ -97,33 +90,21 @@ password(String title, suffixIcon,bool isPassword,TextEditingController controll
 );
 
 errortext(String title) => Padding(
-  padding: const EdgeInsets.only(left: 28,top: 3),
-  child: Text(
-    title,
-    style: TextStyle(
-      color: kred
-    ),
-  ),
+  padding: const EdgeInsets.only(left: 28, top: 3),
+  child: Text(title, style: TextStyle(color: kred)),
 );
 
 decor(String title) => InputDecoration(
   hintText: title,
-  hintStyle: TextStyle(
-    fontFamily: 'Poppins',
-    color: kred
-  ),
+  hintStyle: TextStyle(fontFamily: 'Poppins', color: kred),
   enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
-    borderSide: BorderSide(
-      color: kblackgrey
-    )
+    borderSide: BorderSide(color: kblackgrey),
   ),
   focusedBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
-    borderSide: BorderSide(
-      color: kblackgrey
-    )
-  )
+    borderSide: BorderSide(color: kblackgrey),
+  ),
 );
 
 button(String title, VoidCallback onTap) => Padding(
@@ -131,33 +112,28 @@ button(String title, VoidCallback onTap) => Padding(
   child: Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 2,
-            spreadRadius: 1,
-            offset: Offset(0, 2),
-          ),
-        ],
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey,
+          blurRadius: 2,
+          spreadRadius: 1,
+          offset: Offset(0, 2),
+        ),
+      ],
     ),
     child: RawMaterialButton(
       onPressed: onTap,
       fillColor: kred,
       elevation: 2,
-      constraints: BoxConstraints.tightFor(
-        height: 55,
-        width: double.infinity
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10)
-      ),
+      constraints: BoxConstraints.tightFor(height: 55, width: double.infinity),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Text(
         title,
         style: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 16,
           color: Colors.white,
-          fontWeight: FontWeight.bold
+          fontWeight: FontWeight.bold,
         ),
       ),
     ),
@@ -246,12 +222,10 @@ Widget homebox(
                       Expanded(
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.person
-                            ),
-                            
+                            Icon(Icons.person),
+
                             const SizedBox(width: 10),
-                            
+
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -290,7 +264,9 @@ Widget homebox(
 
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF4F6F8),
                           borderRadius: BorderRadius.circular(20),
@@ -302,7 +278,7 @@ Widget homebox(
                             fontSize: 11,
                             color: Color(0xFF666666),
                           ),
-                        )
+                        ),
                       ),
                     ],
                   ),
@@ -323,14 +299,11 @@ textfield2(String title, String title2) => Column(
       padding: const EdgeInsets.only(left: 25),
       child: Text(
         title,
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          color: Color(0xff919EAB)
-        ),
+        style: TextStyle(fontFamily: 'Poppins', color: Color(0xff919EAB)),
       ),
     ),
     Padding(
-      padding: const EdgeInsets.only(left: 25,right: 25,top: 10),
+      padding: const EdgeInsets.only(left: 25, right: 25, top: 10),
       child: TextField(
         maxLines: 1,
         decoration: InputDecoration(
@@ -344,20 +317,20 @@ textfield2(String title, String title2) => Column(
           fillColor: Color(0xffD9D9D9),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none
+            borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none
-          )
-        )
+            borderSide: BorderSide.none,
+          ),
+        ),
       ),
     ),
   ],
 );
 
 fieldbox(String title) => Padding(
-  padding: const EdgeInsets.only(left: 25,right: 25,top: 10),
+  padding: const EdgeInsets.only(left: 25, right: 25, top: 10),
   child: TextField(
     maxLines: 1,
     decoration: InputDecoration(
@@ -371,25 +344,23 @@ fieldbox(String title) => Padding(
       fillColor: Color(0xffD9D9D9),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none
+        borderSide: BorderSide.none,
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none
-      )
-    )
+        borderSide: BorderSide.none,
+      ),
+    ),
   ),
 );
 
 Widget youtube({required String link}) {
-  final videoId = YoutubePlayer.convertUrlToId(link);
+  final videoId = YoutubePlayerController.convertUrlToId(link);
 
-  YoutubePlayerController controller = YoutubePlayerController(
-    initialVideoId: videoId ?? '',
-    flags: YoutubePlayerFlags(
-      autoPlay: false,
-      mute: false,
-    ),
+  final controller = YoutubePlayerController.fromVideoId(
+    videoId: videoId ?? '',
+    autoPlay: false,
+    params: const YoutubePlayerParams(showFullscreenButton: true),
   );
 
   return Padding(
@@ -405,15 +376,12 @@ Widget youtube({required String link}) {
             color: const Color.fromARGB(255, 174, 174, 174),
             offset: Offset(0, 4),
             blurRadius: 2,
-          )
+          ),
         ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child: YoutubePlayer(
-          controller: controller,
-          showVideoProgressIndicator: true,
-        ),
+        child: YoutubePlayer(controller: controller),
       ),
     ),
   );
@@ -425,7 +393,7 @@ Widget reportbox(
   String createdAt,
   // String firstName,
   // String lastName,
-  VoidCallback onTap
+  VoidCallback onTap,
 ) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -498,9 +466,9 @@ Widget reportbox(
                             // Icon(
                             //   Icons.person
                             // ),
-                            
+
                             // const SizedBox(width: 10),
-                            
+
                             // Text(
                             //   "$firstName $lastName",
                             //   style: const TextStyle(
@@ -509,10 +477,11 @@ Widget reportbox(
                             //     fontWeight: FontWeight.w500,
                             //   ),
                             // ),
-
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
+                                horizontal: 10,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFF4F6F8),
                                 borderRadius: BorderRadius.circular(20),
@@ -524,7 +493,7 @@ Widget reportbox(
                                   fontSize: 11,
                                   color: Color(0xFF666666),
                                 ),
-                              )
+                              ),
                             ),
                           ],
                         ),
@@ -533,16 +502,14 @@ Widget reportbox(
                       RawMaterialButton(
                         onPressed: onTap,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         fillColor: klightred,
                         child: Text(
                           'Take Action',
-                          style: textmedium10.copyWith(
-                            color: kwhite
-                          ),
+                          style: textmedium10.copyWith(color: kwhite),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ],
@@ -634,9 +601,9 @@ Widget reporttakenbox(
                             // Icon(
                             //   Icons.person
                             // ),
-                            
+
                             // const SizedBox(width: 10),
-                            
+
                             // Text(
                             //   "$firstName $lastName",
                             //   style: const TextStyle(
@@ -645,10 +612,11 @@ Widget reporttakenbox(
                             //     fontWeight: FontWeight.w500,
                             //   ),
                             // ),
-
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
+                                horizontal: 10,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFF4F6F8),
                                 borderRadius: BorderRadius.circular(20),
@@ -660,7 +628,7 @@ Widget reporttakenbox(
                                   fontSize: 11,
                                   color: Color(0xFF666666),
                                 ),
-                              )
+                              ),
                             ),
                           ],
                         ),

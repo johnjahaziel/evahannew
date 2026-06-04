@@ -91,10 +91,8 @@ class _SignupState extends State<Signup> {
   }
 
   Future<void> dropdowndata() async {
-    final categoryurl =
-        Uri.parse('https://app.evahansevai.com/api/categories');
-    final stateurl =
-        Uri.parse('https://app.evahansevai.com/api/states');
+    final categoryurl = Uri.parse('https://app.evahansevai.com/api/categories');
+    final stateurl = Uri.parse('https://app.evahansevai.com/api/states');
 
     try {
       final categoryresponse = await http.get(categoryurl);
@@ -102,11 +100,12 @@ class _SignupState extends State<Signup> {
 
       if (categoryresponse.statusCode == 200 &&
           stateresponse.statusCode == 200) {
-
-        final Map<String, dynamic> categoryresponses =
-            jsonDecode(categoryresponse.body);
-        final Map<String, dynamic> stateresponses =
-            jsonDecode(stateresponse.body);
+        final Map<String, dynamic> categoryresponses = jsonDecode(
+          categoryresponse.body,
+        );
+        final Map<String, dynamic> stateresponses = jsonDecode(
+          stateresponse.body,
+        );
 
         final List<dynamic> categorydata = categoryresponses['data'];
         final List<dynamic> statedata = stateresponses['data'];
@@ -119,7 +118,8 @@ class _SignupState extends State<Signup> {
                   'value': item['id'].toString(),
                   'label': item['name'].toString(),
                 };
-              }).toList();
+              })
+              .toList();
 
           statedropdownItems = statedata.map((item) {
             return {
@@ -141,9 +141,7 @@ class _SignupState extends State<Signup> {
       final response = await http.post(
         districtUrl,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'state_code': stateCode
-        }),
+        body: jsonEncode({'state_code': stateCode}),
       );
 
       if (response.statusCode == 200) {
@@ -170,17 +168,17 @@ class _SignupState extends State<Signup> {
   Future<void> fetchtaluk(String districtCode, String stateCode) async {
     final talukurl = Uri.parse('https://app.evahansevai.com/api/villages');
 
-    try{
+    try {
       final response = await http.post(
         talukurl,
-        headers: {'Content-Type':'application/json'},
+        headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'state_code' : stateCode,
-          'district_code': districtCode
-        })
+          'state_code': stateCode,
+          'district_code': districtCode,
+        }),
       );
 
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final List<dynamic> talukdata = data['data'];
 
@@ -216,7 +214,9 @@ class _SignupState extends State<Signup> {
       request.fields['business_name'] = businessname.text;
       request.fields['business_address'] = businessaddress.text;
       request.fields['blood_group'] = selectedbloodgroupitems!.toString();
-      request.fields['dob'] = DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(datecontroller.text));
+      request.fields['dob'] = DateFormat(
+        'yyyy-MM-dd',
+      ).format(DateFormat('dd-MM-yyyy').parse(datecontroller.text));
       // request.fields['insurance_id'] = insuranceid.text;
       // request.fields['insurance_exp_date'] = insurancedate.text;
 
@@ -232,7 +232,9 @@ class _SignupState extends State<Signup> {
         if (fileExtension == 'png') {
           mimeType = 'image/png';
         } else if (fileExtension != 'jpg' && fileExtension != 'jpeg') {
-          Fluttertoast.showToast(msg: "Unsupported image format. Use JPG, JPEG, or PNG.");
+          Fluttertoast.showToast(
+            msg: "Unsupported image format. Use JPG, JPEG, or PNG.",
+          );
           return;
         }
 
@@ -265,15 +267,12 @@ class _SignupState extends State<Signup> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Verifyotp(
-              phonenumber: mobile.text,
-            )
-          )
+            builder: (context) => Verifyotp(phonenumber: mobile.text),
+          ),
         );
 
         print(jsonResp);
       } else if (response.statusCode == 422) {
-
         final errors = jsonResp['errors'];
 
         setState(() {
@@ -295,7 +294,6 @@ class _SignupState extends State<Signup> {
           // insurancedatee = errors['insurance_exp_date']?.toString() ?? '';
           selectedImagee = errors['photo']?.toString() ?? '';
         });
-
       } else {
         Fluttertoast.showToast(msg: jsonResp['message'] ?? "Sign Up Failed");
 
@@ -322,7 +320,7 @@ class _SignupState extends State<Signup> {
               fontFamily: 'Poppins',
               fontSize: 16,
               color: Colors.black,
-              fontWeight: FontWeight.bold
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -331,40 +329,36 @@ class _SignupState extends State<Signup> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 12,),
+              const SizedBox(height: 12),
               textfield2(
                 isTamil ? 'முதல் பெயர்' : 'First Name',
                 'Eg. John',
-                firstname
+                firstname,
               ),
-              if (firstnamee.isNotEmpty)
-              errortext(firstnamee),
-              const SizedBox(height: 12,),
+              if (firstnamee.isNotEmpty) errortext(firstnamee),
+              const SizedBox(height: 12),
               textfield2(
                 isTamil ? 'கடைசி பெயர்' : 'Last Name',
                 'Eg. Wick',
-                lastname
+                lastname,
               ),
-              if (lastnamee.isNotEmpty)
-              errortext(lastnamee),
-              const SizedBox(height: 12,),
+              if (lastnamee.isNotEmpty) errortext(lastnamee),
+              const SizedBox(height: 12),
               textfield2(
                 isTamil ? 'மின்னஞ்சல்' : 'Email',
                 'evahan@gmail.com',
-                email
+                email,
               ),
-              if (emaile.isNotEmpty)
-              errortext(emaile),
-              const SizedBox(height: 12,),
+              if (emaile.isNotEmpty) errortext(emaile),
+              const SizedBox(height: 12),
               textfield2(
                 isTamil ? 'கைபேசி' : 'Mobile',
                 '1234567890',
                 mobile,
-                numpad: true
+                numpad: true,
               ),
-              if (mobilee.isNotEmpty)
-              errortext(mobilee),
-              const SizedBox(height: 12,),
+              if (mobilee.isNotEmpty) errortext(mobilee),
+              const SizedBox(height: 12),
               passwordsignup(
                 isTamil ? 'கடவுச்சொல்' : 'Password',
                 Padding(
@@ -375,23 +369,24 @@ class _SignupState extends State<Signup> {
                         isPassword = !isPassword;
                       });
                     },
-                    icon: isPassword ? Icon(
-                      FontAwesomeIcons.solidEyeSlash,
-                      color: Colors.black,
-                      size: 20,
-                    ) : Icon(
-                      FontAwesomeIcons.solidEye,
-                      color: Colors.black,
-                      size: 20,
-                    ),
+                    icon: isPassword
+                        ? FaIcon(
+                            FontAwesomeIcons.solidEyeSlash,
+                            color: Colors.black,
+                            size: 20,
+                          )
+                        : FaIcon(
+                            FontAwesomeIcons.solidEye,
+                            color: Colors.black,
+                            size: 20,
+                          ),
                   ),
                 ),
                 isPassword,
                 passwordtext,
               ),
-              if (passwordtexte.isNotEmpty)
-              errortext(passwordtexte),
-              const SizedBox(height: 12,),
+              if (passwordtexte.isNotEmpty) errortext(passwordtexte),
+              const SizedBox(height: 12),
               CustomDropdownDropdown(
                 title: 'Blood Group',
                 selectedCustomDropdown: selectedbloodgroupitems,
@@ -402,18 +397,16 @@ class _SignupState extends State<Signup> {
                   });
                 },
               ),
-              if (bloodgroupItemse.isNotEmpty)
-              errortext(bloodgroupItemse),
-              const SizedBox(height: 12,),
+              if (bloodgroupItemse.isNotEmpty) errortext(bloodgroupItemse),
+              const SizedBox(height: 12),
               Dateofbirthfield(
                 title: 'Date of Birth',
                 datecontroller: datecontroller,
                 star: false,
                 padding: true,
               ),
-              if (datecontrollere.isNotEmpty)
-              errortext(datecontrollere),
-              const SizedBox(height: 12,),
+              if (datecontrollere.isNotEmpty) errortext(datecontrollere),
+              const SizedBox(height: 12),
               // textfield2(
               //   isTamil ? 'காப்பீட்டு அடையாள எண்' : 'Insurance ID',
               //   '1234567890',
@@ -431,68 +424,53 @@ class _SignupState extends State<Signup> {
               // if (insurancedatee.isNotEmpty)
               // errortext(insurancedatee),
               // const SizedBox(height: 12,),
-              texty(
-                isTamil ? 'வகை' : 'Category'
-              ),
+              texty(isTamil ? 'வகை' : 'Category'),
               categorydropdowm(),
-              if (selectedCategorye.isNotEmpty)
-              errortext(selectedCategorye),
-              const SizedBox(height: 12,),
-              texty(
-                isTamil ? 'இடம்' : 'Location'
-              ),
+              if (selectedCategorye.isNotEmpty) errortext(selectedCategorye),
+              const SizedBox(height: 12),
+              texty(isTamil ? 'இடம்' : 'Location'),
               statedropdown(),
-              if (selectedStatee.isNotEmpty)
-              errortext(selectedStatee),
-              const SizedBox(height: 12,),
+              if (selectedStatee.isNotEmpty) errortext(selectedStatee),
+              const SizedBox(height: 12),
               districtDropdown(),
-              if (selectedDistricte.isNotEmpty)
-              errortext(selectedDistricte),
-              const SizedBox(height: 12,),
+              if (selectedDistricte.isNotEmpty) errortext(selectedDistricte),
+              const SizedBox(height: 12),
               talukDropdown(),
-              if (selectedtaluke.isNotEmpty)
-              errortext(selectedtaluke),
-              const SizedBox(height: 12,),
+              if (selectedtaluke.isNotEmpty) errortext(selectedtaluke),
+              const SizedBox(height: 12),
               textfield2(
                 isTamil ? 'ஆதார்' : 'Aadhaar',
                 'Eg. 416526786532',
                 aadhar,
-                numpad: true
+                numpad: true,
               ),
-              if (aadhare.isNotEmpty)
-              errortext(aadhare),
-              const SizedBox(height: 12,),
+              if (aadhare.isNotEmpty) errortext(aadhare),
+              const SizedBox(height: 12),
               textfield2(
                 isTamil ? 'வணிகத்தின் பெயர்' : 'Business Name',
                 'Enterprise',
-                businessname
+                businessname,
               ),
-              if (businessnamee.isNotEmpty)
-              errortext(businessnamee),
-              const SizedBox(height: 12,),
+              if (businessnamee.isNotEmpty) errortext(businessnamee),
+              const SizedBox(height: 12),
               textfield2(
                 isTamil ? 'வணிக முகவரி' : 'Business Address',
                 'Eg. no 40 , bharathi street',
-                businessaddress
+                businessaddress,
               ),
-              if (businessaddresse.isNotEmpty)
-              errortext(businessaddresse),
-              const SizedBox(height: 12,),
+              if (businessaddresse.isNotEmpty) errortext(businessaddresse),
+              const SizedBox(height: 12),
               upload(),
-              if (selectedImagee.isNotEmpty)
-              errortext(selectedImagee),
+              if (selectedImagee.isNotEmpty) errortext(selectedImagee),
               const SizedBox(height: 30),
-              button(
-                isTamil ? 'சமர்ப்பிக்க' : 'Submit',
-                () {
-                  newuser();
-                }
-              ),
+              button(isTamil ? 'சமர்ப்பிக்க' : 'Submit', () {
+                newuser();
+              }),
               const SizedBox(height: 30),
             ],
           ),
         ),
-      )
+      ),
     );
   }
 
@@ -503,9 +481,7 @@ class _SignupState extends State<Signup> {
         height: 55,
         padding: EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          border: Border.all(
-            color: kblackgrey
-          ),
+          border: Border.all(color: kblackgrey),
           borderRadius: BorderRadius.circular(8),
         ),
         child: DropdownButtonHideUnderline(
@@ -534,10 +510,7 @@ class _SignupState extends State<Signup> {
                 value: item['value'],
                 child: Text(
                   '${item['label']}',
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(fontFamily: 'Poppins', fontSize: 12),
                 ),
               );
             }).toList(),
@@ -561,9 +534,7 @@ class _SignupState extends State<Signup> {
         decoration: BoxDecoration(
           // color: Color(0xffD9D9D9),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: kblackgrey
-          )
+          border: Border.all(color: kblackgrey),
         ),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
@@ -591,10 +562,7 @@ class _SignupState extends State<Signup> {
                 value: item['id'],
                 child: Text(
                   item['name']!,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(fontFamily: 'Poppins', fontSize: 12),
                 ),
               );
             }).toList(),
@@ -617,9 +585,7 @@ class _SignupState extends State<Signup> {
         height: 55,
         padding: EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          border: Border.all(
-            color: kblackgrey
-          ),
+          border: Border.all(color: kblackgrey),
           borderRadius: BorderRadius.circular(8),
         ),
         child: DropdownButton<String>(
@@ -647,10 +613,7 @@ class _SignupState extends State<Signup> {
               value: item['id'],
               child: Text(
                 item['name']!,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                ),
+                style: TextStyle(fontFamily: 'Poppins', fontSize: 12),
               ),
             );
           }).toList(),
@@ -673,9 +636,7 @@ class _SignupState extends State<Signup> {
         height: 55,
         padding: EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          border: Border.all(
-            color: kblackgrey
-          ),
+          border: Border.all(color: kblackgrey),
           borderRadius: BorderRadius.circular(8),
         ),
         child: DropdownButton<String>(
@@ -703,10 +664,7 @@ class _SignupState extends State<Signup> {
               value: item['id'],
               child: Text(
                 item['name']!,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                ),
+                style: TextStyle(fontFamily: 'Poppins', fontSize: 12),
               ),
             );
           }).toList(),
@@ -728,10 +686,7 @@ class _SignupState extends State<Signup> {
         padding: EdgeInsets.only(left: 25),
         child: Text(
           'Profile Photo',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            color: Color(0xff919EAB),
-          ),
+          style: TextStyle(fontFamily: 'Poppins', color: Color(0xff919EAB)),
         ),
       ),
       const SizedBox(height: 10),
@@ -748,7 +703,7 @@ class _SignupState extends State<Signup> {
                 offset: Offset(0, 2),
                 color: Colors.grey,
                 blurRadius: 2,
-              )
+              ),
             ],
             border: Border.all(color: Colors.black),
           ),
@@ -796,26 +751,27 @@ class _SignupState extends State<Signup> {
   );
 }
 
-textfield2(String title, String title2, TextEditingController controller,{bool numpad = false}) => Column(
+textfield2(
+  String title,
+  String title2,
+  TextEditingController controller, {
+  bool numpad = false,
+}) => Column(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
     Padding(
       padding: const EdgeInsets.only(left: 25),
       child: Text(
         title,
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          color: Color(0xff919EAB)
-        ),
+        style: TextStyle(fontFamily: 'Poppins', color: Color(0xff919EAB)),
       ),
     ),
     Padding(
-      padding: const EdgeInsets.only(left: 25,right: 25,top: 10),
+      padding: const EdgeInsets.only(left: 25, right: 25, top: 10),
       child: TextField(
         maxLines: 1,
         controller: controller,
-        keyboardType:
-            numpad ? TextInputType.number : TextInputType.text,
+        keyboardType: numpad ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           hintText: title2,
           hintStyle: TextStyle(
@@ -825,24 +781,20 @@ textfield2(String title, String title2, TextEditingController controller,{bool n
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: kblackgrey
-            )
+            borderSide: BorderSide(color: kblackgrey),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: kblackgrey
-            )
-          )
-        )
+            borderSide: BorderSide(color: kblackgrey),
+          ),
+        ),
       ),
     ),
   ],
 );
 
 fieldbox(String title, TextEditingController controller) => Padding(
-  padding: const EdgeInsets.only(left: 25,right: 25),
+  padding: const EdgeInsets.only(left: 25, right: 25),
   child: TextField(
     maxLines: 1,
     decoration: InputDecoration(
@@ -854,17 +806,13 @@ fieldbox(String title, TextEditingController controller) => Padding(
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(
-          color: kblackgrey
-        )
+        borderSide: BorderSide(color: kblackgrey),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(
-          color: kblackgrey
-        )
-      )
-    )
+        borderSide: BorderSide(color: kblackgrey),
+      ),
+    ),
   ),
 );
 
@@ -874,27 +822,26 @@ texty(String title) => Column(
       padding: const EdgeInsets.only(left: 25),
       child: Text(
         title,
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          color: Color(0xff919EAB)
-        ),
+        style: TextStyle(fontFamily: 'Poppins', color: Color(0xff919EAB)),
       ),
     ),
-    const SizedBox(height: 10,),
+    const SizedBox(height: 10),
   ],
 );
 
-passwordsignup(String title, suffixIcon,bool isPassword,TextEditingController controller) => Padding(
+passwordsignup(
+  String title,
+  suffixIcon,
+  bool isPassword,
+  TextEditingController controller,
+) => Padding(
   padding: const EdgeInsets.symmetric(horizontal: 25),
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
         title,
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          color: Color(0xff919EAB)
-        ),
+        style: TextStyle(fontFamily: 'Poppins', color: Color(0xff919EAB)),
       ),
       Padding(
         padding: const EdgeInsets.only(top: 5),
@@ -905,17 +852,13 @@ passwordsignup(String title, suffixIcon,bool isPassword,TextEditingController co
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: kblackgrey
-              )
+              borderSide: BorderSide(color: kblackgrey),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: kblackgrey
-              )
+              borderSide: BorderSide(color: kblackgrey),
             ),
-            suffixIcon: suffixIcon
+            suffixIcon: suffixIcon,
           ),
         ),
       ),

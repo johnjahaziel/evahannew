@@ -40,7 +40,7 @@ class _LoginState extends State<Login> {
         Uri.parse('https://app.evahansevai.com/api/login'),
         headers: {
           'Content-Type': 'application/json',
-          'Accept' : 'application/json'
+          'Accept': 'application/json',
         },
         body: jsonEncode({
           'username': _usernameController.text,
@@ -53,34 +53,33 @@ class _LoginState extends State<Login> {
       await prefs.setBool('isLoggedIn', true);
 
       final responseData = jsonDecode(response.body);
-      
+
       if (response.statusCode == 200) {
         Fluttertoast.showToast(msg: responseData['message']);
 
         final String userId = responseData['user_data']['reg_id'].toString();
-        final String roleId = responseData['user_data']['category_id'].toString();
+        final String roleId = responseData['user_data']['category_id']
+            .toString();
 
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('userid', userId);
         await prefs.setString('roleid', roleId);
 
         String? storedUserId = prefs.getString('userid');
-        Provider.of<Userprovider>(context, listen: false).setUserId(
-          storedUserId ?? userId,
-          roleId
-        );
+        Provider.of<Userprovider>(
+          context,
+          listen: false,
+        ).setUserId(storedUserId ?? userId, roleId);
 
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Navigation()),
-          ((route) => false)
+          ((route) => false),
         );
         print(responseData);
       } else {
-
         Fluttertoast.showToast(msg: responseData['message']);
         print(responseData);
-
       }
     } catch (e) {
       print(e);
@@ -116,10 +115,7 @@ class _LoginState extends State<Login> {
                   children: [
                     SizedBox(height: 60),
                     Center(
-                      child: Image.asset(
-                        'images/evahanlogo.png',
-                        height: 100,
-                      ),
+                      child: Image.asset('images/evahanlogo.png', height: 100),
                     ),
                     SizedBox(height: 60),
                     Text(
@@ -134,7 +130,7 @@ class _LoginState extends State<Login> {
                     textfield(
                       isTamil ? 'கைபேசி எண்' : 'Mobile Number',
                       _usernameController,
-                      numpad: true
+                      numpad: true,
                     ),
                     SizedBox(height: 10),
                     password(
@@ -147,15 +143,17 @@ class _LoginState extends State<Login> {
                               isPassword = !isPassword;
                             });
                           },
-                          icon: isPassword ? Icon(
-                            FontAwesomeIcons.solidEyeSlash,
-                            color: Colors.black,
-                            size: 20,
-                          ) : Icon(
-                            FontAwesomeIcons.solidEye,
-                            color: Colors.black,
-                            size: 20,
-                          ),
+                          icon: isPassword
+                              ? FaIcon(
+                                  FontAwesomeIcons.solidEyeSlash,
+                                  color: Colors.black,
+                                  size: 20,
+                                )
+                              : FaIcon(
+                                  FontAwesomeIcons.solidEye,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
                         ),
                       ),
                       isPassword,
@@ -232,8 +230,10 @@ class _LoginState extends State<Login> {
                     setState(() {
                       selectedLanguage = newValue;
                     });
-                    Provider.of<Languageprovider>(context, listen: false)
-                        .setLanguage(newValue);
+                    Provider.of<Languageprovider>(
+                      context,
+                      listen: false,
+                    ).setLanguage(newValue);
                   },
                   itemBuilder: (_) => [
                     PopupMenuItem<String>(
@@ -286,7 +286,7 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-  
+
   Widget signupbutton(VoidCallback onTap) {
     final langProvider = Provider.of<Languageprovider>(context);
     final isTamil = langProvider.language == 'Tamil';
@@ -298,14 +298,11 @@ class _LoginState extends State<Login> {
         elevation: 2,
         constraints: BoxConstraints.tightFor(
           height: 55,
-          width: double.infinity
+          width: double.infinity,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
-          side: BorderSide(
-            color: kred,
-            width: 1.5
-          )
+          side: BorderSide(color: kred, width: 1.5),
         ),
         child: Text(
           isTamil ? 'பதிவு செய்யவும்' : 'Sign-up',
@@ -313,7 +310,7 @@ class _LoginState extends State<Login> {
             fontFamily: 'Poppins',
             fontSize: 16,
             color: kred,
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
