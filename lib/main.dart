@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
@@ -22,38 +22,30 @@ Future<void> main() async{
         ChangeNotifierProvider(
           create: (_) => Userprovider()..setUserId(userId, roleId),
         ),
-        ChangeNotifierProvider(
-          create: (_) => Languageprovider()
-        ),
-        ChangeNotifierProvider(
-          create: (_) => Numberprovider()
-        )
+        ChangeNotifierProvider(create: (_) => Languageprovider()),
+        ChangeNotifierProvider(create: (_) => Numberprovider()),
       ],
       child: MyApp(isLoggedIn: isLoggedIn),
     ),
   );
 }
+
 class MyApp extends StatelessWidget {
   final bool isLoggedIn;
-  const MyApp({
-    super.key,
-    required this.isLoggedIn
-  });
+  const MyApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light, // Android
+        statusBarBrightness: Brightness.dark, // iOS -> white icons
       ),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: isLoggedIn ? const Navigation() : const Login(),
-        theme: ThemeData(
-          fontFamily: 'Poppins'
-        ),
+        theme: ThemeData(fontFamily: 'Poppins'),
       ),
     );
   }
