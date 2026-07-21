@@ -26,9 +26,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => Languageprovider()),
         ChangeNotifierProvider(create: (_) => Numberprovider()),
       ],
-      child: MyApp(
-        isAuthenticated: isLoggedIn && !isDemoSession,
-      ),
+      child: MyApp(isAuthenticated: isLoggedIn && !isDemoSession),
     ),
   );
 }

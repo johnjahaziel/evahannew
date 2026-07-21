@@ -1,0 +1,34 @@
+[33m703d48a2409e5b20d158efaeefa0c4d0cdf72028[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mapple[m[33m, [m[1;31morigin/apple[m[33m)[m refs/remotes/origin/apple@{Tue Jul 21 14:45:37 2026}: update by push
+[33m703d48a2409e5b20d158efaeefa0c4d0cdf72028[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mapple[m[33m, [m[1;31morigin/apple[m[33m)[m refs/heads/apple@{Tue Jul 21 14:45:19 2026}: commit: Your commit message
+[33m703d48a2409e5b20d158efaeefa0c4d0cdf72028[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mapple[m[33m, [m[1;31morigin/apple[m[33m)[m HEAD@{Tue Jul 21 14:45:19 2026}: commit: Your commit message
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m refs/remotes/origin/apple@{Tue Jul 21 13:40:27 2026}: update by push
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{Tue Jul 21 13:39:45 2026}: checkout: moving from main to apple
+[33m29977c47c809d097b5f7a7ab94c72f301ed46b45[m[33m ([m[1;32mmain[m[33m)[m HEAD@{Tue Jul 21 13:39:20 2026}: reset: moving to HEAD
+[33m29977c47c809d097b5f7a7ab94c72f301ed46b45[m[33m ([m[1;32mmain[m[33m)[m refs/heads/main@{Tue Jul 21 13:38:22 2026}: reset: moving to HEAD~1
+[33m29977c47c809d097b5f7a7ab94c72f301ed46b45[m[33m ([m[1;32mmain[m[33m)[m HEAD@{Tue Jul 21 13:38:22 2026}: reset: moving to HEAD~1
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{Tue Jul 21 13:38:22 2026}: checkout: moving from apple to main
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{Tue Jul 21 13:37:45 2026}: checkout: moving from main to apple
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m refs/heads/main@{Tue Jul 21 13:37:26 2026}: reset: moving to HEAD~1
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{Tue Jul 21 13:37:26 2026}: reset: moving to HEAD~1
+[33md9cec703b7b55e39acdb4c3bb44808f86fb0b1e6[m HEAD@{Tue Jul 21 13:37:21 2026}: checkout: moving from apple to main
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m refs/heads/apple@{Tue Jul 21 13:37:00 2026}: reset: moving to HEAD~1
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{Tue Jul 21 13:37:00 2026}: reset: moving to HEAD~1
+[33md9cec703b7b55e39acdb4c3bb44808f86fb0b1e6[m HEAD@{Tue Jul 21 13:36:08 2026}: checkout: moving from main to apple
+[33md9cec703b7b55e39acdb4c3bb44808f86fb0b1e6[m refs/heads/apple@{Tue Jul 21 13:35:57 2026}: branch: Created from main
+[33md9cec703b7b55e39acdb4c3bb44808f86fb0b1e6[m refs/heads/main@{Tue Jul 21 13:35:37 2026}: commit: apple
+[33md9cec703b7b55e39acdb4c3bb44808f86fb0b1e6[m HEAD@{Tue Jul 21 13:35:37 2026}: commit: apple
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m refs/remotes/origin/main@{Thu Jul 2 14:38:15 2026}: update by push
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m refs/heads/main@{Thu Jul 2 14:38:07 2026}: commit: new changes
+[33m65683c144007162ae42459d77d14caa51d97f5f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{Thu Jul 2 14:38:07 2026}: commit: new changes
+[33m29977c47c809d097b5f7a7ab94c72f301ed46b45[m[33m ([m[1;32mmain[m[33m)[m refs/remotes/origin/main@{Thu Jul 2 12:58:25 2026}: update by push
+[33m29977c47c809d097b5f7a7ab94c72f301ed46b45[m[33m ([m[1;32mmain[m[33m)[m refs/heads/main@{Thu Jul 2 12:58:11 2026}: commit: new changes
+[33m29977c47c809d097b5f7a7ab94c72f301ed46b45[m[33m ([m[1;32mmain[m[33m)[m HEAD@{Thu Jul 2 12:58:11 2026}: commit: new changes
+[33m5eb3d72052b8df01447a6058200d900ae2eddd7b[m refs/remotes/origin/main@{Thu Jun 4 13:25:17 2026}: update by push
+[33m5eb3d72052b8df01447a6058200d900ae2eddd7b[m refs/heads/main@{Thu Jun 4 13:25:04 2026}: commit: new id
+[33m5eb3d72052b8df01447a6058200d900ae2eddd7b[m HEAD@{Thu Jun 4 13:25:04 2026}: commit: new id
+[33mfaba0611727d40b1df8a19ee20052ea76ee1c13c[m refs/remotes/origin/main@{Thu Jun 4 13:06:45 2026}: update by push
+[33mfaba0611727d40b1df8a19ee20052ea76ee1c13c[m refs/heads/main@{Thu Jun 4 13:06:35 2026}: commit: new changes
+[33mfaba0611727d40b1df8a19ee20052ea76ee1c13c[m HEAD@{Thu Jun 4 13:06:35 2026}: commit: new changes
+[33m3d8bf1b423f1e5a270c810cb5cb7e5682c03d0d4[m refs/heads/main@{Tue May 26 18:42:38 2026}: clone: from github.com:johnjahaziel/evahannew.git
+[33m3d8bf1b423f1e5a270c810cb5cb7e5682c03d0d4[m refs/remotes/origin/HEAD@{Tue May 26 18:42:38 2026}: clone: from github.com:johnjahaziel/evahannew.git
+[33m3d8bf1b423f1e5a270c810cb5cb7e5682c03d0d4[m HEAD@{Tue May 26 18:42:38 2026}: clone: from github.com:johnjahaziel/evahannew.git

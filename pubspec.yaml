@@ -2,7 +2,7 @@ name: evahan
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 2.0.6+6
+version: 2.0.7+7
 
 environment:
   sdk: ^3.9.2
