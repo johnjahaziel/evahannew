@@ -172,22 +172,34 @@ class _HomescreenState extends State<Homescreen> {
         ? Center(
             child: CircularProgressIndicator(color: kred),
           )
-        : SingleChildScrollView(
-            child: Column(
-              children: [
-                Carousel(imageList: topadimageList),
-                SizedBox(height: 20),
+        // The YouTube player renders its video surface through a Flutter
+        // OverlayPortal (used internally for scroll-tracking and fullscreen).
+        // Without a nearby Overlay ancestor it escapes to the app's root
+        // Overlay and paints above Navigation's Scaffold.drawer, which is
+        // just a plain body-level widget, not a route. Scoping a local
+        // Overlay to this page confines the player to the page content.
+        : Overlay(
+            initialEntries: [
+              OverlayEntry(
+                builder: (context) => SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Carousel(imageList: topadimageList),
+                      SizedBox(height: 20),
 
-                Promotionbox(imageUrls: imageUrls),
-                SizedBox(height: 20),
+                      Promotionbox(imageUrls: imageUrls),
+                      SizedBox(height: 20),
 
-                if (ytube != null) youtube(link: ytube!),
-                SizedBox(height: 10),
+                      if (ytube != null) youtube(link: ytube!),
+                      SizedBox(height: 10),
 
-                Carousel(imageList: bottomadimageList),
-                SizedBox(height: 30),
-              ],
-            ),
+                      Carousel(imageList: bottomadimageList),
+                      SizedBox(height: 30),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
     );
   }

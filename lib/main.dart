@@ -1,8 +1,8 @@
-import 'package:evahan/login.dart';
 import 'package:evahan/navigation.dart';
 import 'package:evahan/providers/languageprovider.dart';
 import 'package:evahan/providers/numberprovider.dart';
 import 'package:evahan/providers/userprovider.dart';
+import 'package:evahan/screens/demohomepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +15,7 @@ Future<void> main() async {
   final userId = prefs.getString('userid') ?? '';
   final roleId = prefs.getString('roleid') ?? '';
   final bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  final bool isDemoSession = prefs.getBool('is_demo_session') ?? false;
 
   runApp(
     MultiProvider(
@@ -25,14 +26,16 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => Languageprovider()),
         ChangeNotifierProvider(create: (_) => Numberprovider()),
       ],
-      child: MyApp(isLoggedIn: isLoggedIn),
+      child: MyApp(
+        isAuthenticated: isLoggedIn && !isDemoSession,
+      ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final bool isLoggedIn;
-  const MyApp({super.key, required this.isLoggedIn});
+  final bool isAuthenticated;
+  const MyApp({super.key, required this.isAuthenticated});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,7 @@ class MyApp extends StatelessWidget {
       ),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: isLoggedIn ? const Navigation() : const Login(),
+        home: isAuthenticated ? const Navigation() : const DemoHomePage(),
         theme: ThemeData(fontFamily: 'Poppins'),
       ),
     );

@@ -1,18 +1,15 @@
-import 'dart:convert';
-
 import 'package:evahan/navigation.dart';
 import 'package:evahan/providers/languageprovider.dart';
 import 'package:evahan/providers/userprovider.dart';
 import 'package:evahan/screens/forgetpassword.dart';
 import 'package:evahan/signup.dart';
+import 'package:evahan/utility/authservice.dart';
 import 'package:evahan/utility/customs.dart';
 import 'package:evahan/utility/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -36,50 +33,21 @@ class _LoginState extends State<Login> {
     });
 
     try {
-      final response = await http.post(
-        Uri.parse('https://app.evahansevai.com/api/login'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: jsonEncode({
-          'username': _usernameController.text,
-          'password': _passwordController.text,
-        }),
+      final result = await Authservice.login(
+        username: _usernameController.text,
+        password: _passwordController.text,
+        userprovider: Provider.of<Userprovider>(context, listen: false),
+        isDemo: false,
       );
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('password', _passwordController.text);
-      await prefs.setBool('isLoggedIn', true);
+      Fluttertoast.showToast(msg: result.message);
 
-      final responseData = jsonDecode(response.body);
-
-      if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: responseData['message']);
-
-        final String userId = responseData['user_data']['reg_id'].toString();
-        final String roleId = responseData['user_data']['category_id']
-            .toString();
-
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('userid', userId);
-        await prefs.setString('roleid', roleId);
-
-        String? storedUserId = prefs.getString('userid');
-        Provider.of<Userprovider>(
-          context,
-          listen: false,
-        ).setUserId(storedUserId ?? userId, roleId);
-
+      if (result.success) {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Navigation()),
           ((route) => false),
         );
-        print(responseData);
-      } else {
-        Fluttertoast.showToast(msg: responseData['message']);
-        print(responseData);
       }
     } catch (e) {
       print(e);
